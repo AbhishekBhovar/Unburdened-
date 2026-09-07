@@ -1,14 +1,16 @@
-# Unburdened v2.1
+# Unburdened v2.2 Final
 
-Repository-ready GitHub Pages build.
+GitHub Pages repository build.
 
-## v2.1 update
-- Polished Weight Trend graph on the Progress screen
-- Dynamic date axis that continues into future months/years automatically
-- 1W / 1M / 3M / ALL range controls
-- Latest weigh-in callout with date and weight
-- Subtle area fill, grid lines, data points, and summary stats
-- All existing Home, Log, Milestones, More, Photos, Settings, backup and local-save behaviour preserved
+## Final Home changes
+- Home/Journey artwork is now a locked static image asset.
+- Static milestone stones lead visually from the 126 kg starting point toward the 70 kg goal.
+- No dynamic weight-number overlays are placed on the illustration.
+- No Settings button appears on Home.
+- The old bottom-right “Progress...” sign from the previous production artwork is gone.
+- Current Mission remains live and updates from your saved weigh-ins.
+- Progress graph improvements from v2.1 are preserved.
+- Log, Milestones, More, Photos, Settings, backup/import/export and local save remain intact.
 
-## Deploy
-Upload every file and folder inside this package to the repository root, replacing the previous build.
+## Upload
+Upload every file and folder inside this package to the repository root, replacing the previous version.

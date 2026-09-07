@@ -64,3 +64,19 @@
   .trend-stats strong{font-size:12px}
   .trend-stats small{font-size:8px}
 }
+
+
+/* v2.2 final Home — locked static artwork, no CSS recreation or dynamic stone overlays */
+.static-home{padding:0 0 12px;background:var(--paper)}
+.static-journey-art{width:100%;overflow:hidden;background:#c7efff;border-radius:0 0 24px 24px}
+.static-journey-art img{display:block;width:100%;height:auto}
+.static-home .home-body{padding:0 16px}
+.static-home .mission{margin-top:10px}
+.static-home .grid3,
+.static-home .home-brand,
+.static-home .home-settings,
+.static-home .brand-patch,
+.static-home .current-patch{display:none!important}
+@media(max-height:760px){
+  .static-journey-art img{width:100%;height:auto;object-fit:contain}
+}

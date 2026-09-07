@@ -5,10 +5,28 @@ function cps(){let a=[126,125],x=122.5;while(x>=70){a.push(x);x-=2.5}return [...
 function navActive(v){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v))}function go(v){navActive(v);({home,log,progress,milestones,more}[v]||home)();scrollTo(0,0)}document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 function pageHead(title,back=false){return `<div class="head">${back?`<button class="back" aria-label="Back">‹</button>`:''}<h1>${title}</h1></div>`}function wireBack(){const b=$('.back');if(b)b.onclick=()=>go('more')}
 function trailSteps(w){const all=cps().filter(x=>x<w);return all.slice(0,6)}
-function home(){const w=cur(),n=next(),steps=trailSteps(w);const hi=cps().filter(x=>x>=w).at(-1)??START;const pct=Math.max(0,Math.min(100,(hi-w)/Math.max(.1,hi-n)*100));const labels=[...steps];while(labels.length<6)labels.push('');$('#view').innerHTML=`<section class="home-page">
-<div class="home-brand"><div><strong>Unburdened</strong><small>Small steps. Big changes.</small></div><button class="home-settings" aria-label="Settings">⚙</button></div>
-<div class="approved-art"><img src="assets/journey-production.png?v=20" alt="Illustrated mountain journey with a backpacked hiker, walking stick and milestone trail" onerror="this.onerror=null;this.src='journey-production.png?v=20'"></div>
-<div class="home-body"><div class="card mission"><div class="mission-label">Current Mission</div><div class="route">${fmt(w)} kg → ${fmt(n)} kg</div><div class="progressbar"><i style="width:${pct}%"></i></div><div class="split muted mini"><span>${fmt(lost())} kg down</span><span>${fmt(Math.max(0,w-n))} kg to next step</span></div></div><div class="grid3"><div class="card stat"><strong>${fmt(w)}</strong><small>Current kg</small></div><div class="card stat"><strong>${fmt(lost())}</strong><small>Total lost</small></div><div class="card stat"><strong>${fmt(rem())}</strong><small>To goal</small></div></div></div></section>`;$('.home-settings').onclick=settingsPage}
+function home(){
+  const w=cur(),n=next();
+  const hi=cps().filter(x=>x>=w).at(-1)??START;
+  const pct=Math.max(0,Math.min(100,(hi-w)/Math.max(.1,hi-n)*100));
+  $('#view').innerHTML=`<section class="home-page static-home">
+    <div class="static-journey-art">
+      <img src="assets/home-static-journey.jpg?v=22"
+           alt="Unburdened mountain journey with static milestone stones from 126 kg toward the 70 kg goal">
+    </div>
+    <div class="home-body">
+      <div class="card mission">
+        <div class="mission-label">Current Mission</div>
+        <div class="route">${fmt(w)} kg → ${fmt(n)} kg</div>
+        <div class="progressbar"><i style="width:${pct}%"></i></div>
+        <div class="split muted mini">
+          <span>${fmt(lost())} kg down</span>
+          <span>${fmt(Math.max(0,w-n))} kg to next step</span>
+        </div>
+      </div>
+    </div>
+  </section>`
+}
 function log(){$('#view').innerHTML=`<section class="screen log-screen">${pageHead('Log Weight')}<div class="scale" aria-hidden="true"></div><div class="card form compact-form"><div class="two"><label>Date<input id="date" type="date" value="${today()}"></label><label>Weight (kg)<input id="weight" type="number" step=".1" inputmode="decimal" placeholder="${fmt(cur())}"></label></div><div class="helper">✓ Same conditions each week makes the trend more useful.</div><label>Waist (cm) <span>— optional, every 2 weeks</span><input id="waist" type="number" step=".1" inputmode="decimal" placeholder="e.g. 110"></label><label>Notes <span>— optional</span><textarea id="notes" placeholder="Anything worth remembering?"></textarea></label><button id="saveLog" class="btn">Save Update</button></div></section>`;$('#saveLog').onclick=()=>{const v=parseFloat($('#weight').value),wa=parseFloat($('#waist').value),d=$('#date').value,notes=$('#notes').value.trim();if(!Number.isNaN(v)){state.weights.push({date:d,value:v,notes});checkCelebration(v)}if(!Number.isNaN(wa))state.waists.push({date:d,value:wa});save();go('home')}}
 function progress(){$('#view').innerHTML=`<section class="screen progress-screen">${pageHead('Current Progress')}<div class="card center progress-summary"><div class="big">${fmt(cur())} kg</div><h2>${fmt(lost())} kg down</h2><p class="muted">${fmt(rem())} kg to go</p><div class="progressbar"><i style="width:${overall()}%"></i></div><div class="split muted mini"><span>${START} kg Start</span><span>${GOAL} kg Goal</span></div></div><div class="card soft center checkpoint-card"><strong>Next Checkpoint</strong><div class="checkpoint">${fmt(next())} kg</div><span class="muted">${fmt(Math.max(0,cur()-next()))} kg to go</span></div>${chart()}${waistSummary()}</section>`}
 function setChartRange(r){chartRange=r;progress()}
