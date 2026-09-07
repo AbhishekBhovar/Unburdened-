@@ -84,3 +84,36 @@
 
 /* v2.3: historical/backfilled weigh-ins */
 .range-tabs button.active{min-width:34px}
+
+
+/* v2.7 Home spacing: preserve artwork, use more of the vertical screen */
+.static-home{
+  min-height:calc(100dvh - 78px - env(safe-area-inset-bottom));
+  display:flex;
+  flex-direction:column;
+  padding-bottom:0;
+}
+.static-journey-art{
+  flex:0 0 auto;
+}
+.static-journey-art img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+/* Let the live Current Mission sit lower on tall phones without changing the artwork. */
+.static-home .home-body{
+  flex:1 0 auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:0 16px 10px;
+}
+.static-home .mission{
+  margin:14px 0 0;
+}
+@media (max-height:780px){
+  .static-home{min-height:auto}
+  .static-home .home-body{display:block;padding:0 16px}
+  .static-home .mission{margin-top:10px}
+}

@@ -23,7 +23,7 @@ function home(){
   const pct=Math.max(0,Math.min(100,(hi-w)/Math.max(.1,hi-n)*100));
   $('#view').innerHTML=`<section class="home-page static-home">
     <div class="static-journey-art">
-      <img src="assets/home-static-journey.jpg?v=26"
+      <img src="assets/home-static-journey.jpg?v=27"
            alt="Unburdened mountain journey with static milestone stones from 126 kg toward the 70 kg goal">
     </div>
     <div class="home-body">
@@ -32,7 +32,7 @@ function home(){
         <div class="route">${fmt(w)} kg → ${fmt(n)} kg</div>
         <div class="progressbar"><i style="width:${pct}%"></i></div>
         <div class="split muted mini">
-          <span>${fmt(lost())} kg down</span>
+          <span>${fmt(Math.max(0,130-w))} kg down</span>
           <span>${fmt(Math.max(0,w-n))} kg to next step</span>
         </div>
       </div>

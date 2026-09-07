@@ -1,19 +1,13 @@
-# Unburdened v2.6 Final
+# Unburdened v2.7 Final
 
-Repository-ready GitHub Pages build.
+Repository-ready GitHub Pages build based on the approved v2.6 Home artwork.
 
-## Home journey artwork — locked
-Starting stone: **130 kg — YOU ARE HERE**
+## v2.7 changes
+- Home Current Mission "kg down" is calculated from the fixed 130 kg journey start:
+  **130 kg − current weight**
+- Example at 122.6 kg: **7.4 kg down**
+- Approved mountain artwork is unchanged.
+- Home layout uses more of the available vertical iPhone screen and positions the live Current Mission card lower, reducing the unused white space above the fixed bottom navigation.
+- Historical graph/date-order fixes and all other v2.6 functionality are preserved.
 
-Then:
-**125 → 120 → 115 → 110 → 105 → 100 → 95 → 90 → 85 → 80 → 75 → 🏁 70 kg THE GOAL**
-
-Rules:
-- Exactly 5 kg between stones.
-- 70 kg is the summit flag only; there is no 70 kg stone.
-- The approved journey artwork is stored at full quality as `assets/home-static-journey.png`.
-- The app-compatible JPEG is `assets/home-static-journey.jpg`.
-- Current Mission remains live/dynamic in the app.
-- Historical graph/date-order fixes from v2.3 are preserved.
-
-Upload every file/folder in this ZIP to the repository root, replacing the previous build.
+Upload every file and folder in this package to the repository root, replacing the previous build.
