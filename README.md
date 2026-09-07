@@ -1,7 +1,8 @@
-# Unburdened v1.2
+# Unburdened v1.3
 
-Corrected visual build matching the approved illustrated prototype much more closely.
+Rebuilt from the approved visual direction. The Home screen uses the approved production artwork rather than a CSS approximation.
 
-Upload **everything inside this folder** to the GitHub repository root.
+## Upload
+Upload **everything inside this folder** to the repository root, replacing the old files.
 
-Features: weekly weight logging, optional fortnightly waist, progress photos, 2.5 kg checkpoints, milestone celebrations, progress trend, local device storage, export/import backup, PWA/home-screen support, Unburdened logo assets.
+If GitHub Pages still shows an older version immediately after deployment, refresh once after deployment has completed; this build also uses a new service-worker cache name (`unburdened-v13`) so the old cached app is discarded.
