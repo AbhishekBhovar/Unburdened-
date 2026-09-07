@@ -1,30 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
-  <meta name="theme-color" content="#eef8f4" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Unburdened" />
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <link rel="stylesheet" href="styles.css" />
-  <title>Unburdened</title>
-</head>
-<body>
-<div id="app">
-  <main id="view"></main>
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <button data-view="home" class="nav-btn active"><span>⌂</span><small>Home</small></button>
-    <button data-view="log" class="nav-btn"><span>▣</span><small>Log</small></button>
-    <button data-view="progress" class="nav-btn"><span>↗</span><small>Progress</small></button>
-    <button data-view="milestones" class="nav-btn"><span>🏆</span><small>Milestones</small></button>
-    <button data-view="more" class="nav-btn"><span>•••</span><small>More</small></button>
-  </nav>
-</div>
-<div id="celebration" class="celebration hidden"></div>
-<input id="photoInput" type="file" accept="image/*" multiple hidden />
-<script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#dff4fb"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="apple-mobile-web-app-title" content="Unburdened">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="assets/icon-192.png"><link rel="stylesheet" href="styles.css"><title>Unburdened</title></head>
+<body><div id="app"><main id="view"></main><nav id="bottomNav" class="bottom-nav">
+<button data-view="home" class="active"><b>⌂</b><span>Home</span></button><button data-view="log"><b>▣</b><span>Log</span></button><button data-view="progress"><b>↗</b><span>Progress</span></button><button data-view="milestones"><b>🏆</b><span>Milestones</span></button><button data-view="more"><b>•••</b><span>More</span></button>
+</nav></div><div id="celebrate" class="overlay hidden"></div><input id="photoPicker" type="file" accept="image/*" multiple hidden><script src="app.js"></script></body></html>
