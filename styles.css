@@ -20,3 +20,9 @@
 .mile strong{font-size:17px}.mile em{font-style:normal;font-size:10px;font-weight:850;color:#df4a32;background:#ffe7e1;border-radius:999px;padding:5px 7px;white-space:nowrap}.mile.goal-mile em{color:#9a6715;background:#fff0ca}.mile small{justify-self:end}
 .timeline{padding-left:8px}.timeline:before{left:21px}
 @media(max-width:370px){.step-label{font-size:14px}.mile em{display:none}}
+
+/* v2.0 cleanup: production artwork owns its labels; never overlay duplicate text. */
+.trail-label{display:none!important}
+.home-brand{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.screen{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.identity img{aspect-ratio:16/8;object-fit:cover;object-position:center 42%}

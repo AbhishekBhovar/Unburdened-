@@ -1,4 +1,4 @@
-# Unburdened v1.9 — Final Repository Build
+# Unburdened v2.0 — Final Repository Build
 
 Upload **all files and folders inside this package** to the repository root, replacing v1.8.
 
