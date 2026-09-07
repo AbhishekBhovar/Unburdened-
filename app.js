@@ -1,4 +1,4 @@
-const START=126, GOAL=70, STEP=2.5, $=s=>document.querySelector(s);const STORE="unburdened-data-v1";const state=load();
+const START=126, GOAL=70, STEP=2.5, $=s=>document.querySelector(s);const STORE="unburdened-data-v1";const state=load();let chartRange="1M";
 function load(){const base={weights:[],waists:[],photos:[],start:START,goal:GOAL,lastCelebrated:START,reminders:{weight:true,waist:true,photos:true}};try{const a=JSON.parse(localStorage.getItem(STORE)||"null");return a?{...base,...a,reminders:{...base.reminders,...(a.reminders||{})}}:base}catch{return base}}
 function save(){localStorage.setItem(STORE,JSON.stringify(state))}function cur(){return state.weights.length?state.weights.at(-1).value:state.start}function lost(){return Math.max(0,state.start-cur())}function rem(){return Math.max(0,cur()-state.goal)}function fmt(n){return Number(n).toFixed(Number(n)%1?1:0)}function today(){return new Date().toISOString().slice(0,10)}
 function cps(){let a=[126,125],x=122.5;while(x>=70){a.push(x);x-=2.5}return [...new Set(a)].sort((a,b)=>b-a)}function next(){return cps().find(x=>x<cur())??GOAL}function overall(){return Math.min(100,Math.max(0,lost()/(state.start-state.goal)*100))}
@@ -10,8 +10,75 @@ function home(){const w=cur(),n=next(),steps=trailSteps(w);const hi=cps().filter
 <div class="approved-art"><img src="assets/journey-production.png?v=20" alt="Illustrated mountain journey with a backpacked hiker, walking stick and milestone trail" onerror="this.onerror=null;this.src='journey-production.png?v=20'"></div>
 <div class="home-body"><div class="card mission"><div class="mission-label">Current Mission</div><div class="route">${fmt(w)} kg → ${fmt(n)} kg</div><div class="progressbar"><i style="width:${pct}%"></i></div><div class="split muted mini"><span>${fmt(lost())} kg down</span><span>${fmt(Math.max(0,w-n))} kg to next step</span></div></div><div class="grid3"><div class="card stat"><strong>${fmt(w)}</strong><small>Current kg</small></div><div class="card stat"><strong>${fmt(lost())}</strong><small>Total lost</small></div><div class="card stat"><strong>${fmt(rem())}</strong><small>To goal</small></div></div></div></section>`;$('.home-settings').onclick=settingsPage}
 function log(){$('#view').innerHTML=`<section class="screen log-screen">${pageHead('Log Weight')}<div class="scale" aria-hidden="true"></div><div class="card form compact-form"><div class="two"><label>Date<input id="date" type="date" value="${today()}"></label><label>Weight (kg)<input id="weight" type="number" step=".1" inputmode="decimal" placeholder="${fmt(cur())}"></label></div><div class="helper">✓ Same conditions each week makes the trend more useful.</div><label>Waist (cm) <span>— optional, every 2 weeks</span><input id="waist" type="number" step=".1" inputmode="decimal" placeholder="e.g. 110"></label><label>Notes <span>— optional</span><textarea id="notes" placeholder="Anything worth remembering?"></textarea></label><button id="saveLog" class="btn">Save Update</button></div></section>`;$('#saveLog').onclick=()=>{const v=parseFloat($('#weight').value),wa=parseFloat($('#waist').value),d=$('#date').value,notes=$('#notes').value.trim();if(!Number.isNaN(v)){state.weights.push({date:d,value:v,notes});checkCelebration(v)}if(!Number.isNaN(wa))state.waists.push({date:d,value:wa});save();go('home')}}
-function progress(){$('#view').innerHTML=`<section class="screen">${pageHead('Current Progress')}<div class="card center"><div class="big">${fmt(cur())} kg</div><h2>${fmt(lost())} kg down</h2><p class="muted">${fmt(rem())} kg to go</p><div class="progressbar"><i style="width:${overall()}%"></i></div><div class="split muted mini"><span>${START} kg Start</span><span>${GOAL} kg Goal</span></div></div><div class="card soft center"><strong>Next Checkpoint</strong><div class="checkpoint">${fmt(next())} kg</div><span class="muted">${fmt(Math.max(0,cur()-next()))} kg to go</span></div>${chart()}${waistSummary()}</section>`}
-function chart(){const v=state.weights.slice(-12);if(v.length<2)return `<div class="card"><h2>Weight trend</h2><div class="chart empty">Your trend appears after two weigh-ins.<br>One reading never tells the whole story.</div></div>`;const min=Math.min(...v.map(x=>x.value)),max=Math.max(...v.map(x=>x.value)),pad=Math.max(1,(max-min)*.2),lo=min-pad,hi=max+pad,pts=v.map((x,i)=>`${(i/(v.length-1))*100},${95-((x.value-lo)/(hi-lo))*88}`).join(' ');return `<div class="card"><h2>Weight trend</h2><div class="chart"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="#25a879" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div></div>`}
+function progress(){$('#view').innerHTML=`<section class="screen progress-screen">${pageHead('Current Progress')}<div class="card center progress-summary"><div class="big">${fmt(cur())} kg</div><h2>${fmt(lost())} kg down</h2><p class="muted">${fmt(rem())} kg to go</p><div class="progressbar"><i style="width:${overall()}%"></i></div><div class="split muted mini"><span>${START} kg Start</span><span>${GOAL} kg Goal</span></div></div><div class="card soft center checkpoint-card"><strong>Next Checkpoint</strong><div class="checkpoint">${fmt(next())} kg</div><span class="muted">${fmt(Math.max(0,cur()-next()))} kg to go</span></div>${chart()}${waistSummary()}</section>`}
+function setChartRange(r){chartRange=r;progress()}
+function chart(){
+  const all=[...state.weights]
+    .filter(x=>x&&Number.isFinite(Number(x.value))&&x.date)
+    .map(x=>({...x,value:Number(x.value),ts:new Date(x.date+'T12:00:00').getTime()}))
+    .filter(x=>Number.isFinite(x.ts))
+    .sort((a,b)=>a.ts-b.ts);
+  if(all.length<2)return `<div class="card trend-card"><div class="trend-head"><div><h2>Weight trend</h2><p>Your progress over time</p></div></div><div class="trend-empty">Your trend appears after two weigh-ins.<br>One reading never tells the whole story.</div></div>`;
+
+  const lastTs=all.at(-1).ts;
+  const rangeDays={ '1W':7, '1M':31, '3M':92 };
+  const startTs=chartRange==='ALL' ? all[0].ts : lastTs-rangeDays[chartRange]*86400000;
+  let v=all.filter(x=>x.ts>=startTs);
+  if(v.length<2)v=all.slice(-Math.min(2,all.length));
+
+  const W=340,H=220,L=42,R=10,T=18,B=34,plotW=W-L-R,plotH=H-T-B;
+  let min=Math.min(...v.map(x=>x.value)),max=Math.max(...v.map(x=>x.value));
+  let span=Math.max(2,max-min);
+  let pad=Math.max(1,span*.22);
+  let lo=Math.floor((min-pad)/2)*2, hi=Math.ceil((max+pad)/2)*2;
+  if(hi-lo<6){const mid=(hi+lo)/2;lo=mid-3;hi=mid+3}
+  const firstTs=v[0].ts, timeSpan=Math.max(86400000,v.at(-1).ts-firstTs);
+  const x=x=>L+((x.ts-firstTs)/timeSpan)*plotW;
+  const y=x=>T+((hi-x.value)/(hi-lo))*plotH;
+  const pts=v.map(p=>`${x(p).toFixed(1)},${y(p).toFixed(1)}`).join(' ');
+  const area=`${x(v[0]).toFixed(1)},${(T+plotH).toFixed(1)} ${pts} ${x(v.at(-1)).toFixed(1)},${(T+plotH).toFixed(1)}`;
+  const yTicks=4;
+  const yGrid=Array.from({length:yTicks+1},(_,i)=>{
+    const yy=T+(plotH/yTicks)*i;
+    const val=hi-((hi-lo)/yTicks)*i;
+    return `<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" class="grid-line"/><text x="${L-7}" y="${yy+4}" text-anchor="end" class="axis-text">${fmt(val)}</text>`
+  }).join('');
+
+  const labelCount=Math.min(6,v.length);
+  const labelIdx=[...new Set(Array.from({length:labelCount},(_,i)=>Math.round(i*(v.length-1)/Math.max(1,labelCount-1))))];
+  const fmtDate=ts=>new Date(ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:(new Date(v[0].ts).getFullYear()!==new Date(v.at(-1).ts).getFullYear())?'2-digit':undefined});
+  const xLabels=labelIdx.map(i=>`<text x="${x(v[i])}" y="${H-9}" text-anchor="${i===0?'start':i===v.length-1?'end':'middle'}" class="axis-text x-label">${fmtDate(v[i].ts)}</text>`).join('');
+  const pointDots=v.map((p,i)=>`<circle cx="${x(p)}" cy="${y(p)}" r="${i===v.length-1?5.5:3.7}" class="${i===v.length-1?'last-dot':'trend-dot'}"/>`).join('');
+  const latest=v.at(-1), lx=x(latest), ly=y(latest);
+  const bubbleW=92,bubbleH=43;
+  const bx=Math.min(W-R-bubbleW,Math.max(L,lx-bubbleW+14));
+  const by=Math.max(2,ly-bubbleH-14);
+  const bubble=`<g class="latest-bubble"><rect x="${bx}" y="${by}" width="${bubbleW}" height="${bubbleH}" rx="8"/><text x="${bx+8}" y="${by+17}" class="bubble-main">${fmt(latest.value)} kg</text><text x="${bx+8}" y="${by+33}" class="bubble-sub">${new Date(latest.ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}</text><line x1="${lx}" y1="${by+bubbleH}" x2="${lx}" y2="${ly-7}" class="bubble-line"/></g>`;
+
+  return `<div class="card trend-card">
+    <div class="trend-head">
+      <div><h2>Weight trend</h2><p>Your progress over time</p></div>
+      <div class="range-tabs">${['1W','1M','3M','ALL'].map(r=>`<button class="${chartRange===r?'active':''}" onclick="setChartRange('${r}')">${r}</button>`).join('')}</div>
+    </div>
+    <div class="trend-chart">
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart">
+        <defs><linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ebf8c" stop-opacity=".26"/><stop offset="100%" stop-color="#2ebf8c" stop-opacity=".03"/></linearGradient></defs>
+        ${yGrid}
+        <polygon points="${area}" fill="url(#trendFill)"/>
+        <polyline points="${pts}" fill="none" class="trend-line"/>
+        ${pointDots}
+        ${bubble}
+        ${xLabels}
+      </svg>
+    </div>
+    <div class="trend-stats">
+      <div><strong>${fmt(START)} kg</strong><small>Starting<br>Weight</small></div>
+      <div><strong>${fmt(cur())} kg</strong><small>Current<br>Weight</small></div>
+      <div><strong class="green-stat">${fmt(lost())} kg</strong><small>Total Lost</small></div>
+      <div><strong>${fmt(rem())} kg</strong><small>Remaining</small></div>
+    </div>
+  </div>`
+}
 function waistSummary(){if(!state.waists.length)return `<div class="card"><h2>Waist</h2><p class="muted">No waist measurements yet.</p></div>`;const a=state.waists[0].value,b=state.waists.at(-1).value;return `<div class="card"><h2>Waist</h2><div class="split"><strong>${fmt(b)} cm</strong><span class="muted">${fmt(a-b)} cm change</span></div></div>`}
 function milestones(){$('#view').innerHTML=`<section class="screen">${pageHead('Milestones')}<div id="milestoneList"></div></section>`;renderMilestones()}
 function renderMilestones(){const arr=cps(),w=cur(),majorSet=new Set([120,110,100,90,80]);$('#milestoneList').innerHTML=`<div class="card timeline">${arr.map(x=>{const isMajor=majorSet.has(x),isGoal=x===70,isCurrent=next()===x,isDone=w<=x;return `<div class="mile ${isDone?'done':''} ${isCurrent?'current':''} ${isMajor?'major-mile':''} ${isGoal?'goal-mile':''}"><span class="mile-marker">${isGoal?'🏆':isMajor?'⚑':''}</span><strong>${fmt(x)} kg</strong>${isMajor?'<em>Major Milestone</em>':isGoal?'<em>Goal</em>':''}<small>${x===126?'Starting point':isGoal?'Goal':isDone?`${fmt(START-x)} kg lost`:`${fmt(w-x)} kg to go`}</small></div>`}).join('')}</div>`}

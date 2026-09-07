@@ -26,3 +26,41 @@
 .home-brand{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
 .screen{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
 .identity img{aspect-ratio:16/8;object-fit:cover;object-position:center 42%}
+
+
+/* v2.1 — polished, date-aware Weight Trend chart */
+.progress-screen .progress-summary{padding-top:18px;padding-bottom:16px}
+.progress-screen .checkpoint-card{padding-top:15px;padding-bottom:15px}
+.trend-card{padding:15px 13px 13px;overflow:hidden}
+.trend-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.trend-head h2{margin:0;font-size:22px;letter-spacing:-.6px}
+.trend-head p{margin:2px 0 0;color:var(--muted);font-size:12px}
+.range-tabs{display:flex;background:#edf2f1;border-radius:999px;padding:3px;flex-shrink:0}
+.range-tabs button{border:0;background:transparent;color:#667982;border-radius:999px;padding:6px 9px;font-size:10px;font-weight:900;line-height:1}
+.range-tabs button.active{background:#2ebf8c;color:#fff;box-shadow:0 3px 8px rgba(46,191,140,.24)}
+.trend-chart{width:100%;height:245px;margin-top:3px}
+.trend-chart svg{width:100%;height:100%;display:block;overflow:visible}
+.grid-line{stroke:#dbe7e5;stroke-width:1}
+.axis-text{fill:#7b8d95;font-size:8px;font-family:inherit}
+.x-label{font-size:7.5px}
+.trend-line{stroke:#159c73;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.trend-dot{fill:#fff;stroke:#159c73;stroke-width:2.5;vector-effect:non-scaling-stroke}
+.last-dot{fill:#35b98b;stroke:#159c73;stroke-width:3;vector-effect:non-scaling-stroke;filter:drop-shadow(0 2px 3px rgba(17,133,120,.22))}
+.latest-bubble rect{fill:#118578}
+.bubble-main{fill:#fff;font-size:10px;font-weight:900;font-family:inherit}
+.bubble-sub{fill:#e8fffa;font-size:7px;font-family:inherit}
+.bubble-line{stroke:#63cdb0;stroke-width:1.3;stroke-dasharray:3 3}
+.trend-stats{display:grid;grid-template-columns:repeat(4,1fr);background:#f1f8f6;border-radius:14px;margin-top:8px;padding:11px 4px}
+.trend-stats>div{text-align:center;padding:0 4px;border-right:1px solid #d7e5e2}
+.trend-stats>div:last-child{border-right:0}
+.trend-stats strong{display:block;font-size:14px;letter-spacing:-.3px}
+.trend-stats small{display:block;color:#667b84;font-size:9px;line-height:1.15;margin-top:3px}
+.green-stat{color:#139d73}
+.trend-empty{height:205px;display:grid;place-items:center;text-align:center;color:var(--muted);border-left:1px solid #d5e1e1;border-bottom:1px solid #d5e1e1;margin:12px 5px 2px}
+@media(max-width:370px){
+  .trend-head{display:block}
+  .range-tabs{margin-top:8px;width:max-content}
+  .trend-chart{height:220px}
+  .trend-stats strong{font-size:12px}
+  .trend-stats small{font-size:8px}
+}
