@@ -1,10 +1,7 @@
-# Unburdened v1.5
+# Unburdened v1.6
 
-Fixes:
-- Restores the illustrated walking-trail journey home screen with hiker, backpack and walking stick.
-- Keeps checkpoint stones over the trail.
-- Fixes iPhone date input overflow.
-- Tightens Log screen spacing for iPhone 16 Pro.
-- Bumps cache version so the previous build is replaced.
+Home now uses the actual approved illustrated prototype artwork as a locked visual asset rather than a CSS recreation.
 
-Upload all files/folders to the repository root, replacing the previous build.
+Screens checked: Home, Log, Progress, Milestones (both tabs), More, Progress Photos, Settings, Your Data, back navigation, save weight, reminder toggles and checkpoint celebration.
+
+Upload every file/folder in this package to the repository root, replacing the previous version.
