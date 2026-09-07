@@ -43,19 +43,51 @@ function home(){
   const stepStart=higher.length?higher.at(-1):state.start;
   const denom=Math.max(.1,stepStart-n);
   const stepPct=Math.min(100,Math.max(0,(stepStart-w)/denom*100));
-  const marks=[`<div class="mark current m0">${fmt(w)}<small>YOU ARE HERE</small></div>`];
-  ["m1","m2","m3","m4"].forEach((cl,i)=>{
-    if(targets[i]!=null) marks.push(`<div class="mark ${i===0?"next":""} ${cl}">${fmt(targets[i])}</div>`)
-  });
+  const s1=targets[0]??GOAL,s2=targets[1]??Math.max(GOAL,s1-STEP),s3=targets[2]??Math.max(GOAL,s2-STEP),s4=targets[3]??Math.max(GOAL,s3-STEP);
   $("#view").innerHTML=`
-  <section>
-    <div class="hero">
-      <img class="hero-bg" src="assets/journey-hero.jpg" alt="Mountain path toward a summit">
-      <div class="brand"><h1>Unburdened</h1><p>Small steps. Big changes.</p></div>
-      <div class="goal"><strong>🚩 ${GOAL} kg</strong><small>THE GOAL</small></div>
-      <div class="markers">${marks.join("")}</div>
+  <section class="journey-page">
+    <div class="journey-art">
+      <svg class="journey-svg" viewBox="0 0 430 520" role="img" aria-label="Illustrated mountain trail with a hiker moving toward the summit">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfefff"/><stop offset="1" stop-color="#e7f7ef"/></linearGradient>
+          <linearGradient id="mount" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fb8b0"/><stop offset="1" stop-color="#4f8872"/></linearGradient>
+          <linearGradient id="trail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0c2"/><stop offset="1" stop-color="#e7c67c"/></linearGradient>
+        </defs>
+        <rect width="430" height="520" fill="url(#sky)"/>
+        <circle cx="344" cy="91" r="52" fill="#fff0a6" opacity=".95"/>
+        <g opacity=".9" fill="#fff"><ellipse cx="72" cy="101" rx="50" ry="21"/><ellipse cx="112" cy="94" rx="35" ry="17"/><ellipse cx="315" cy="137" rx="46" ry="18"/></g>
+        <polygon points="210,127 345,374 75,374" fill="url(#mount)"/>
+        <polygon points="210,127 246,194 176,194" fill="#f6fbfb"/>
+        <polygon points="42,244 134,374 -52,374" fill="#8bb79b"/><polygon points="384,232 485,374 285,374" fill="#6ca27d"/>
+        <path d="M354 129 C315 163, 357 185, 305 214 C259 240, 312 263, 257 291 C214 313, 256 334, 205 358 C174 373, 201 394, 152 421" fill="none" stroke="url(#trail)" stroke-width="14" stroke-linecap="round"/>
+        <g fill="#2f765b">
+          <polygon points="58,275 47,320 69,320"/><rect x="55" y="319" width="6" height="22"/>
+          <polygon points="88,250 74,305 102,305"/><rect x="85" y="304" width="6" height="25"/>
+          <polygon points="337,275 321,330 353,330"/><rect x="334" y="329" width="6" height="24"/>
+          <polygon points="373,253 356,317 390,317"/><rect x="370" y="316" width="6" height="26"/>
+        </g>
+        <g transform="translate(351 92)"><line x1="0" y1="0" x2="0" y2="-42" stroke="#213b45" stroke-width="4"/><path d="M2 -41 L36 -34 L2 -24 Z" fill="#ef5c42"/></g>
+        <g class="hiker" transform="translate(112 344)">
+          <circle cx="19" cy="-46" r="13" fill="#8b5a3c"/><path d="M8 -56 Q20 -70 32 -56 Q28 -70 14 -69 Q5 -66 8 -56" fill="#152e3a"/>
+          <path d="M8 -34 Q20 -42 35 -30 L40 13 L8 13 Z" fill="#173947"/>
+          <rect x="-5" y="-27" width="19" height="35" rx="7" fill="#285b77" stroke="#153d50" stroke-width="3"/>
+          <line x1="12" y1="12" x2="6" y2="48" stroke="#1c2830" stroke-width="8" stroke-linecap="round"/>
+          <line x1="34" y1="12" x2="45" y2="45" stroke="#1c2830" stroke-width="8" stroke-linecap="round"/>
+          <line x1="37" y1="-22" x2="51" y2="3" stroke="#8b5a3c" stroke-width="7" stroke-linecap="round"/>
+          <line x1="50" y1="2" x2="58" y2="51" stroke="#71583b" stroke-width="4"/>
+        </g>
+      </svg>
+      <div class="journey-title"><h1>Unburdened</h1><p>Small steps. Big changes.</p></div>
+      <div class="summit-label">🚩 <strong>${GOAL} kg</strong><small>THE GOAL</small></div>
+      <div class="stone stone-current">${fmt(w)}<small>YOU ARE HERE</small></div>
+      <div class="stone stone-1">${fmt(s1)}</div>
+      <div class="stone stone-2">${fmt(s2)}</div>
+      <div class="stone stone-3">${fmt(s3)}</div>
+      <div class="stone stone-4">${fmt(s4)}</div>
+      <div class="start-stone">✓ ${fmt(state.start)}</div>
+      <div class="journey-quote">“Progress,<br>not perfection.”</div>
     </div>
-    <div class="home-body">
+    <div class="home-body compact-home">
       <div class="card mission">
         <div class="label">Current Mission</div>
         <div class="route">${fmt(w)} kg → ${fmt(n)} kg</div>
@@ -67,11 +99,9 @@ function home(){
         <div class="card stat"><strong>${fmt(lost())}</strong><small>Total lost</small></div>
         <div class="card stat"><strong>${fmt(rem())}</strong><small>To goal</small></div>
       </div>
-      <div class="card soft quote">“Progress, not perfection.”</div>
     </div>
   </section>`;
 }
-
 function log(){
   $("#view").innerHTML=`<section class="screen">
     ${pageHead("Log Weight")}

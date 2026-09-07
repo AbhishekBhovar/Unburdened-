@@ -40,3 +40,30 @@ button,input,textarea{font:inherit}button{cursor:pointer}
 .overlay{position:fixed;z-index:100;inset:0;display:grid;place-items:center;text-align:center;background:linear-gradient(#c7efff,#f8fcf8);padding:28px}.overlay.hidden{display:none}.celebrate-box{max-width:390px}.celebrate-box .kg{font-size:56px;font-weight:950}.confetti{font-size:31px;letter-spacing:7px}.flag-rock{font-size:82px}
 @media(max-height:760px){.hero{height:455px}.m4{bottom:320px}.m3{bottom:250px}.m2{bottom:180px}.m1{bottom:108px}}
 @media(min-width:431px){body{padding:16px 0}#app{border-radius:28px;box-shadow:0 18px 50px rgba(20,50,60,.13)}}
+
+
+/* v1.5: tighter iPhone layout + approved illustrated journey */
+.journey-page{background:var(--paper)}
+.journey-art{position:relative;height:520px;overflow:hidden;border-radius:0 0 28px 28px;background:#c9eff7}
+.journey-svg{display:block;width:100%;height:100%}
+.journey-title{position:absolute;left:18px;top:18px;color:var(--ink);z-index:3}.journey-title h1{margin:0;font-size:31px;line-height:1;font-weight:950;letter-spacing:-1.2px}.journey-title p{margin:5px 0 0;font-size:13px;font-weight:800;color:#355563}
+.summit-label{position:absolute;right:15px;top:34px;text-align:right;color:var(--ink);z-index:3}.summit-label strong{font-size:23px}.summit-label small{display:block;font-size:9px;font-weight:900}
+.stone{position:absolute;z-index:4;min-width:74px;padding:8px 12px;text-align:center;border-radius:999px;background:#f1ead4;border:3px solid #cdbf9d;color:var(--ink);font-weight:950;box-shadow:0 5px 0 rgba(126,111,77,.35)}
+.stone small{display:block;font-size:7px;margin-top:1px}.stone-current{left:83px;bottom:76px;min-width:126px;background:#fff0b5;border-color:#e3ae31}.stone-1{left:224px;bottom:140px}.stone-2{left:260px;bottom:204px}.stone-3{left:248px;bottom:267px}.stone-4{left:264px;bottom:328px}
+.start-stone{position:absolute;left:24px;bottom:20px;z-index:4;background:#d9f4e2;border:3px solid #6bb589;border-radius:999px;padding:8px 15px;font-weight:950;color:var(--ink)}
+.journey-quote{position:absolute;right:16px;bottom:22px;z-index:4;background:#fff2d1;border:1px solid #e6d3a7;border-radius:12px;padding:8px 12px;text-align:center;font-size:11px;font-weight:850;color:var(--ink)}
+.compact-home{padding-top:0}
+.compact-home .mission{margin-top:12px}
+
+.form{overflow:hidden}
+.form input,.form textarea{max-width:100%;min-width:0}
+.form input[type="date"]{display:block;width:100%;min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;text-align:center}
+.form input[type="date"]::-webkit-date-and-time-value{text-align:center;margin:0}
+
+@media(max-height:880px){
+  .screen{padding-top:12px}
+  .head{margin-bottom:8px}.head h1{font-size:27px}
+  .scale{width:78px;height:64px;margin:0 auto 8px}.scale:before{left:20px;top:9px;width:32px;height:17px}
+  .form{padding:13px}.form label{margin:11px 0 5px}.form input,.form textarea{padding:11px}.form textarea{min-height:62px}.helper{margin:9px 0;padding:10px}.notice{margin:8px 0}
+  .journey-art{height:485px}.stone-current{bottom:68px}.stone-1{bottom:128px}.stone-2{bottom:187px}.stone-3{bottom:245px}.stone-4{bottom:300px}
+}
