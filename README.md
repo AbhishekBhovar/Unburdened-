@@ -1,7 +1,7 @@
-# Unburdened v1.7
+# Unburdened v1.8
 
-Home now uses the actual approved illustrated prototype artwork as a locked visual asset rather than a CSS recreation.
+Repository build.
 
-Screens checked: Home, Log, Progress, Milestones (both tabs), More, Progress Photos, Settings, Your Data, back navigation, save weight, reminder toggles and checkpoint celebration.
+Fixes the Home/Journey image loading failure in v1.7. The approved Journey artwork is included as `assets/journey-production.png` and also embedded as an exact fallback so Safari can still render it if GitHub Pages fails to serve the asset path.
 
-Upload every file/folder in this package to the repository root, replacing the previous version.
+Upload every file and folder inside this package to the repository root, replacing v1.7.
