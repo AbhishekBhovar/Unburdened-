@@ -1,16 +1,16 @@
-# Unburdened v2.3 Final
+# Unburdened v2.4 Final
 
-GitHub Pages repository build.
+Repository-ready GitHub Pages build.
 
-## v2.3 fixes
-- Historical/backfilled weigh-ins now show immediately on the Progress graph.
-- Weight Trend defaults to ALL instead of 1M.
-- Weigh-ins are sorted by the date selected in Log Weight.
-- "Current weight" is always the most recent dated weigh-in, not the last record you happened to enter.
-- Adding an older historical weight cannot change the current weight.
-- Multiple entries on the same date are collapsed cleanly on the graph; the latest entry for that date is plotted.
-- 1W / 1M / 3M / ALL filters remain available.
-- Home static journey artwork, Current Mission, Milestones, More, Photos, Settings, backup and v2.1 graph styling are preserved.
+## Journey rule locked
+The Home journey is static:
+125 → 120 → 115 → 110 → 105 → 100 → 95 → 90 → 85 → 80 → 75 → 🏁 70 kg
 
-## Deploy
-Upload every file and folder inside this package to the repository root, replacing the previous build.
+- Exactly 5 kg between journey milestones.
+- No separate 70 kg stone.
+- 70 kg appears only as the summit goal flag.
+- The journey stones do not change when a weight is logged.
+- Live/current weight remains in Current Mission and Progress.
+- Historical graph fixes from v2.3 are preserved.
+
+Upload all files/folders in this package to the repository root, replacing the prior build.
