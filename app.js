@@ -23,7 +23,7 @@ function home(){
   const pct=Math.max(0,Math.min(100,(hi-w)/Math.max(.1,hi-n)*100));
   $('#view').innerHTML=`<section class="home-page static-home">
     <div class="static-journey-art">
-      <img src="assets/home-static-journey.jpg?v=27"
+      <img src="unburdened-journey.jpeg?v=28"
            alt="Unburdened mountain journey with static milestone stones from 126 kg toward the 70 kg goal">
     </div>
     <div class="home-body">

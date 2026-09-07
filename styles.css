@@ -117,3 +117,7 @@
   .static-home .home-body{display:block;padding:0 16px}
   .static-home .mission{margin-top:10px}
 }
+
+/* v2.8 — exact approved journey artwork */
+.static-journey-art{background:transparent}
+.static-journey-art img{display:block;width:100%;height:auto;object-fit:contain}
