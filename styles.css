@@ -80,3 +80,7 @@
 @media(max-height:760px){
   .static-journey-art img{width:100%;height:auto;object-fit:contain}
 }
+
+
+/* v2.3: historical/backfilled weigh-ins */
+.range-tabs button.active{min-width:34px}
