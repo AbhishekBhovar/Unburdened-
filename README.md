@@ -1,4 +1,4 @@
-# Unburdened v2.5 Final
+# Unburdened v2.6 Final
 
 Repository-ready GitHub Pages build.
 
