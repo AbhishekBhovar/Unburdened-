@@ -1,16 +1,19 @@
-# Unburdened v2.4 Final
+# Unburdened v2.5 Final
 
 Repository-ready GitHub Pages build.
 
-## Journey rule locked
-The Home journey is static:
-125 → 120 → 115 → 110 → 105 → 100 → 95 → 90 → 85 → 80 → 75 → 🏁 70 kg
+## Home journey artwork — locked
+Starting stone: **130 kg — YOU ARE HERE**
 
-- Exactly 5 kg between journey milestones.
-- No separate 70 kg stone.
-- 70 kg appears only as the summit goal flag.
-- The journey stones do not change when a weight is logged.
-- Live/current weight remains in Current Mission and Progress.
-- Historical graph fixes from v2.3 are preserved.
+Then:
+**125 → 120 → 115 → 110 → 105 → 100 → 95 → 90 → 85 → 80 → 75 → 🏁 70 kg THE GOAL**
 
-Upload all files/folders in this package to the repository root, replacing the prior build.
+Rules:
+- Exactly 5 kg between stones.
+- 70 kg is the summit flag only; there is no 70 kg stone.
+- The approved journey artwork is stored at full quality as `assets/home-static-journey.png`.
+- The app-compatible JPEG is `assets/home-static-journey.jpg`.
+- Current Mission remains live/dynamic in the app.
+- Historical graph/date-order fixes from v2.3 are preserved.
+
+Upload every file/folder in this ZIP to the repository root, replacing the previous build.
