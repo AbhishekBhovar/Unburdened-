@@ -1,4 +1,4 @@
-# Unburdened v1.6
+# Unburdened v1.7
 
 Home now uses the actual approved illustrated prototype artwork as a locked visual asset rather than a CSS recreation.
 
