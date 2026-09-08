@@ -11,3 +11,7 @@ Repository-ready GitHub Pages build based on the approved v2.6 Home artwork.
 - Historical graph/date-order fixes and all other v2.6 functionality are preserved.
 
 Upload every file and folder in this package to the repository root, replacing the previous build.
+
+
+## v3.2
+Rebuilt the opening sequence using the approved illustrated Unburdened artwork rather than CSS-drawn scenery. Animated weight stones lift from the backpack, footsteps rise toward the summit, then the splash dissolves into Home.
