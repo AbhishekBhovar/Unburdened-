@@ -186,3 +186,38 @@ body.splashing{overflow:hidden}
   width:min(78vw,350px);
   transform:translate(-50%,-50%);
 }
+
+/* v3.7 — centre loader group exactly like approved mockup */
+.splash-loader{
+  position:absolute !important;
+  z-index:3 !important;
+  left:50% !important;
+  top:50% !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:min(72vw,340px) !important;
+  transform:translate(-50%,-50%) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  padding:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+.splash-progress{
+  width:100% !important;
+  flex:none !important;
+  height:7px !important;
+}
+.splash-percent{
+  width:100% !important;
+  min-width:0 !important;
+  text-align:center !important;
+  font-size:20px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+}

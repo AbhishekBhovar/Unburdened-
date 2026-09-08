@@ -23,3 +23,7 @@ Rebuilt the opening sequence using the approved illustrated Unburdened artwork r
 
 ## v3.6
 Sunrise splash source is permanently cropped to remove all embedded logo/title/motto text. The 0–100% loading bar is centred on the screen, retains the 4-second timing, and dissolves into Home.
+
+
+## v3.7
+Loading bar is horizontally centred in the middle of the splash screen, with the 0–100% number centred directly underneath. Sunrise artwork, 4-second timing and dissolve are unchanged.
