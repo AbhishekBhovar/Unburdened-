@@ -1,3 +1,7 @@
+# Unburdened v3.4
+
+Sunrise loading screen: existing sunrise artwork only (cropped to exclude embedded logo/text), 0–100% progress over 4 seconds, then a soft dissolve into Home. Includes the More artwork and Weight History features from the prior build.
+
 # Unburdened v2.7 Final
 
 Repository-ready GitHub Pages build based on the approved v2.6 Home artwork.
