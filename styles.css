@@ -121,3 +121,7 @@
 /* v2.8 — exact approved journey artwork */
 .static-journey-art{background:transparent}
 .static-journey-art img{display:block;width:100%;height:auto;object-fit:contain}
+
+/* v3.0 More artwork + visible weight history */
+.identity img{aspect-ratio:16/8;object-fit:cover;object-position:center center}
+.history-card h2{margin:0 0 3px}.history-intro{margin:0 0 8px;font-size:12px}.history-list{max-height:360px;overflow:auto}.history-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:11px 1px;border-top:1px solid #e7eeee}.history-row:first-child{border-top:0}.history-row strong,.history-row small{display:block}.history-row strong{font-size:14px}.history-row small{font-size:11px;color:var(--muted);margin-top:3px;max-width:230px}.history-row b{font-size:16px;white-space:nowrap}
