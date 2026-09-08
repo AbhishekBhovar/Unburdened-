@@ -140,3 +140,30 @@ body.splashing{overflow:hidden}
 .splash-progress i{display:block;width:0;height:100%;border-radius:inherit;background:#fff;box-shadow:0 0 12px rgba(255,255,255,.55)}
 .splash-percent{min-width:42px;text-align:right;color:#fff;font-size:15px;font-weight:800;letter-spacing:.02em;text-shadow:0 1px 4px rgba(0,0,0,.35)}
 @media (prefers-reduced-motion:reduce){.splash{transition:opacity .2s linear}}
+
+/* v3.5 final sunrise loader framing */
+.splash-art{
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  object-fit:cover;
+  /* Push the source image upward enough that the embedded logo/title area is always above the viewport. */
+  object-position:center 100%;
+  transform:scale(1.34);
+  transform-origin:center bottom;
+}
+.splash-loader{
+  left:50%;
+  bottom:calc(env(safe-area-inset-bottom) + 34px);
+  width:min(78vw,350px);
+  transform:translateX(-50%);
+  gap:12px;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(7,27,31,.20);
+  backdrop-filter:blur(5px);
+  -webkit-backdrop-filter:blur(5px);
+}
+.splash-progress{height:7px}
+.splash-percent{font-size:16px;min-width:45px}
