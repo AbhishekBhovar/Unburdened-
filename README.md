@@ -19,3 +19,7 @@ Upload every file and folder in this package to the repository root, replacing t
 
 ## v3.2
 Rebuilt the opening sequence using the approved illustrated Unburdened artwork rather than CSS-drawn scenery. Animated weight stones lift from the backpack, footsteps rise toward the summit, then the splash dissolves into Home.
+
+
+## v3.6
+Sunrise splash source is permanently cropped to remove all embedded logo/title/motto text. The 0–100% loading bar is centred on the screen, retains the 4-second timing, and dissolves into Home.

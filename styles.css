@@ -167,3 +167,22 @@ body.splashing{overflow:hidden}
 }
 .splash-progress{height:7px}
 .splash-percent{font-size:16px;min-width:45px}
+
+
+/* v3.6 — text-free sunrise crop + centred loader */
+.splash-art{
+  width:100%;
+  height:100%;
+  left:0;
+  top:0;
+  object-fit:cover;
+  object-position:center center;
+  transform:none;
+}
+.splash-loader{
+  left:50%;
+  top:50%;
+  bottom:auto;
+  width:min(78vw,350px);
+  transform:translate(-50%,-50%);
+}
