@@ -130,21 +130,15 @@
 .identity img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#132b36}
 .identity div{text-align:center;padding:12px}
 
-/* v3.4 — quiet sunrise startup: clean logo, layered ridgelines, subtle summit flag. */
-.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#edf8f7 0%,#f7fbf7 58%,#fff8e8 100%);transition:opacity .5s ease,transform .5s cubic-bezier(.22,.7,.25,1)}
-.startup-skyglow{position:absolute;z-index:0;left:50%;top:55%;width:92vw;height:46vh;transform:translate(-50%,-50%) scale(.86);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,205,91,.34) 0%,rgba(255,222,139,.18) 30%,rgba(255,242,211,.07) 52%,rgba(255,255,255,0) 73%);filter:blur(2px);opacity:0;animation:skyGlow 1.55s ease .05s forwards}
-.startup-range{position:absolute;z-index:1;left:-7%;right:-7%;bottom:27%;opacity:0;transform:translateY(24px);transform-origin:50% 100%}
-.range-far{height:160px;background:#dbe7e3;clip-path:polygon(0 100%,0 82%,8% 72%,16% 80%,25% 63%,33% 75%,42% 57%,50% 71%,59% 50%,68% 69%,78% 55%,88% 72%,100% 60%,100% 100%);animation:mountainRise 1s ease .12s forwards}
-.range-mid{z-index:2;height:128px;bottom:26.5%;background:#c7d7d3;clip-path:polygon(0 100%,0 78%,10% 65%,20% 77%,31% 57%,40% 72%,51% 52%,61% 70%,72% 45%,81% 67%,91% 53%,100% 70%,100% 100%);animation:mountainRise 1s ease .24s forwards}
-.range-near{z-index:3;height:96px;bottom:26%;background:#aec4c0;clip-path:polygon(0 100%,0 76%,9% 65%,19% 76%,30% 58%,41% 73%,52% 55%,63% 72%,74% 52%,84% 70%,93% 59%,100% 68%,100% 100%);animation:mountainRise 1s ease .36s forwards}
-.startup-summit-flag{position:absolute;z-index:4;right:25.4%;bottom:calc(26% + 71px);width:2px;height:18px;background:#826b5e;opacity:0;transform:translateY(5px);animation:flagReveal .65s ease .82s forwards}
-.startup-summit-flag:after{content:"";position:absolute;left:2px;top:0;width:12px;height:8px;background:#c64d43;clip-path:polygon(0 0,100% 24%,72% 100%,0 78%)}
-.startup-brand{position:relative;z-index:6;text-align:center;margin-top:4px;opacity:0;transform:translateY(12px) scale(.99);animation:brandReveal .78s cubic-bezier(.22,.7,.25,1) .42s forwards}
+/* v3.5 — cinematic sunrise startup. Real scenic artwork; locked HTML wordmark. */
+.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;background:linear-gradient(180deg,#eaf7f7 0%,#f5faf6 38%,#fff3cf 68%,#e9f2ef 100%);transition:opacity .52s ease,transform .52s cubic-bezier(.22,.7,.25,1)}
+.startup-skyglow{position:absolute;z-index:0;left:50%;top:58%;width:115vw;height:58vh;transform:translate(-50%,-50%) scale(.9);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,200,86,.40) 0%,rgba(255,224,153,.22) 34%,rgba(255,247,223,.05) 62%,rgba(255,255,255,0) 76%);opacity:0;animation:skyGlow 1.45s ease forwards}
+.startup-scene{position:absolute;z-index:1;left:0;bottom:-1px;width:100%;height:55%;object-fit:cover;object-position:center top;opacity:0;transform:translateY(18px) scale(1.018);transform-origin:50% 100%;animation:sceneReveal 1.15s cubic-bezier(.22,.7,.25,1) .12s forwards;mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.22) 5%,#000 16%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.22) 5%,#000 16%)}
+.startup-brand{position:absolute;z-index:3;left:0;right:0;top:43%;transform:translateY(-50%) scale(.985);text-align:center;padding:0 18px;opacity:0;animation:brandReveal .82s cubic-bezier(.22,.7,.25,1) .34s forwards}
 .startup-brand strong{display:block;color:var(--ink);font-size:clamp(42px,12vw,52px);font-weight:950;letter-spacing:-2.4px;line-height:1}
 .startup-brand span{display:block;margin-top:10px;color:#648087;font-size:13px;font-weight:850;letter-spacing:.2px}
-.startup-splash.leave{opacity:0;transform:translateY(-5px) scale(1.005);pointer-events:none}
+.startup-splash.leave{opacity:0;transform:scale(1.008);pointer-events:none}
 @keyframes skyGlow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@keyframes mountainRise{to{opacity:1;transform:translateY(0)}}
-@keyframes flagReveal{to{opacity:1;transform:translateY(0)}}
-@keyframes brandReveal{to{opacity:1;transform:translateY(0) scale(1)}}
-@media(prefers-reduced-motion:reduce){.startup-skyglow,.startup-range,.startup-summit-flag,.startup-brand{animation-duration:.01ms;animation-delay:0s}.startup-splash.leave{transition-duration:.2s}}
+@keyframes sceneReveal{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes brandReveal{to{opacity:1;transform:translateY(-50%) scale(1)}}
+@media(prefers-reduced-motion:reduce){.startup-skyglow,.startup-scene,.startup-brand{animation-duration:.01ms;animation-delay:0s}.startup-splash.leave{transition-duration:.2s}}
