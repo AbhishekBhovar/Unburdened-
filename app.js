@@ -124,7 +124,7 @@ function exportSave(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'
 function finishSplash(){
   const splash=document.getElementById('startupSplash');
   if(!splash)return;
-  setTimeout(()=>splash.classList.add('leave'),2200);
-  setTimeout(()=>splash.remove(),2800);
+  setTimeout(()=>splash.classList.add('leave'),2100);
+  setTimeout(()=>splash.remove(),2650);
 }
 home();finishSplash();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
