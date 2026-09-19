@@ -130,9 +130,11 @@
 .identity img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#132b36}
 .identity div{text-align:center;padding:12px}
 
-/* v3.6 — final 3-second wordless cinematic startup. Real artwork only. */
-.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;background:#dcebee;opacity:1;transition:opacity .34s ease;pointer-events:auto}
-.startup-scene{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center center;transform:scale(1.045) translate3d(0,10px,0);animation:startupJourney 3s cubic-bezier(.22,.61,.36,1) forwards;will-change:transform,filter}
+/* v3.7 — 3-second wordless cinematic startup using the approved You + Mona artwork. */
+.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;background:#111c22;opacity:1;transition:opacity .38s ease;pointer-events:auto}
+.startup-scene{position:absolute;left:50%;top:50%;width:118%;height:118%;object-fit:cover;object-position:50% 52%;transform:translate(-50%,-50%) scale(1.08);animation:startupJourney 3s cubic-bezier(.2,.72,.25,1) forwards;will-change:transform,filter}
+.startup-splash::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 69% 19%,rgba(255,208,108,.18),transparent 25%);opacity:.25;animation:sunBreath 3s ease-in-out forwards;pointer-events:none}
 .startup-splash.leave{opacity:0;pointer-events:none}
-@keyframes startupJourney{0%{transform:scale(1.045) translate3d(0,10px,0);filter:brightness(.88) saturate(.92)}55%{filter:brightness(1) saturate(1)}100%{transform:scale(1.01) translate3d(0,-4px,0);filter:brightness(1.04) saturate(1.03)}}
-@media(prefers-reduced-motion:reduce){.startup-scene{animation:none;transform:scale(1.01)}.startup-splash.leave{transition-duration:.2s}}
+@keyframes startupJourney{0%{transform:translate(-50%,-47%) scale(1.11);filter:brightness(.78) saturate(.88)}45%{filter:brightness(.96) saturate(1)}100%{transform:translate(-50%,-53%) scale(1.025);filter:brightness(1.04) saturate(1.04)}}
+@keyframes sunBreath{0%{opacity:.08}55%{opacity:.38}100%{opacity:.18}}
+@media(prefers-reduced-motion:reduce){.startup-scene{animation:none;transform:translate(-50%,-50%) scale(1.03)}.startup-splash::after{animation:none}.startup-splash.leave{transition-duration:.2s}}
