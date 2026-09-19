@@ -130,15 +130,9 @@
 .identity img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#132b36}
 .identity div{text-align:center;padding:12px}
 
-/* v3.5 — cinematic sunrise startup. Real scenic artwork; locked HTML wordmark. */
-.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;background:linear-gradient(180deg,#eaf7f7 0%,#f5faf6 38%,#fff3cf 68%,#e9f2ef 100%);transition:opacity .52s ease,transform .52s cubic-bezier(.22,.7,.25,1)}
-.startup-skyglow{position:absolute;z-index:0;left:50%;top:58%;width:115vw;height:58vh;transform:translate(-50%,-50%) scale(.9);border-radius:50%;background:radial-gradient(ellipse at center,rgba(255,200,86,.40) 0%,rgba(255,224,153,.22) 34%,rgba(255,247,223,.05) 62%,rgba(255,255,255,0) 76%);opacity:0;animation:skyGlow 1.45s ease forwards}
-.startup-scene{position:absolute;z-index:1;left:0;bottom:-1px;width:100%;height:55%;object-fit:cover;object-position:center top;opacity:0;transform:translateY(18px) scale(1.018);transform-origin:50% 100%;animation:sceneReveal 1.15s cubic-bezier(.22,.7,.25,1) .12s forwards;mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.22) 5%,#000 16%);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,rgba(0,0,0,.22) 5%,#000 16%)}
-.startup-brand{position:absolute;z-index:3;left:0;right:0;top:43%;transform:translateY(-50%) scale(.985);text-align:center;padding:0 18px;opacity:0;animation:brandReveal .82s cubic-bezier(.22,.7,.25,1) .34s forwards}
-.startup-brand strong{display:block;color:var(--ink);font-size:clamp(42px,12vw,52px);font-weight:950;letter-spacing:-2.4px;line-height:1}
-.startup-brand span{display:block;margin-top:10px;color:#648087;font-size:13px;font-weight:850;letter-spacing:.2px}
-.startup-splash.leave{opacity:0;transform:scale(1.008);pointer-events:none}
-@keyframes skyGlow{to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-@keyframes sceneReveal{to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes brandReveal{to{opacity:1;transform:translateY(-50%) scale(1)}}
-@media(prefers-reduced-motion:reduce){.startup-skyglow,.startup-scene,.startup-brand{animation-duration:.01ms;animation-delay:0s}.startup-splash.leave{transition-duration:.2s}}
+/* v3.6 — final 3-second wordless cinematic startup. Real artwork only. */
+.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;background:#dcebee;opacity:1;transition:opacity .34s ease;pointer-events:auto}
+.startup-scene{position:absolute;inset:-2%;width:104%;height:104%;object-fit:cover;object-position:center center;transform:scale(1.045) translate3d(0,10px,0);animation:startupJourney 3s cubic-bezier(.22,.61,.36,1) forwards;will-change:transform,filter}
+.startup-splash.leave{opacity:0;pointer-events:none}
+@keyframes startupJourney{0%{transform:scale(1.045) translate3d(0,10px,0);filter:brightness(.88) saturate(.92)}55%{filter:brightness(1) saturate(1)}100%{transform:scale(1.01) translate3d(0,-4px,0);filter:brightness(1.04) saturate(1.03)}}
+@media(prefers-reduced-motion:reduce){.startup-scene{animation:none;transform:scale(1.01)}.startup-splash.leave{transition-duration:.2s}}
