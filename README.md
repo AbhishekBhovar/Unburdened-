@@ -9,3 +9,8 @@ GitHub Pages/PWA build.
 - Service worker cache bumped to `unburdened-v32-more-startup`.
 
 Upload the contents of this folder to the repository root.
+
+
+## v3.3
+- Rebuilt startup animation with a visible rising sun, layered mountain ridgelines, summit peak and red flag.
+- Preserved approved artwork and existing app functionality.
