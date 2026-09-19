@@ -138,3 +138,14 @@
 @keyframes startupJourney{0%{transform:translate(-50%,-47%) scale(1.11);filter:brightness(.78) saturate(.88)}45%{filter:brightness(.96) saturate(1)}100%{transform:translate(-50%,-53%) scale(1.025);filter:brightness(1.04) saturate(1.04)}}
 @keyframes sunBreath{0%{opacity:.08}55%{opacity:.38}100%{opacity:.18}}
 @media(prefers-reduced-motion:reduce){.startup-scene{animation:none;transform:translate(-50%,-50%) scale(1.03)}.startup-splash::after{animation:none}.startup-splash.leave{transition-duration:.2s}}
+
+/* v3.8 — four-second cinematic dissolve + sunset ambience carried into the app. */
+html,body{background:#f7eee2}
+#app{background:linear-gradient(180deg,#fff8ee 0%,#f8fbf8 24%,#f7fbfa 100%)}
+.screen{background:linear-gradient(180deg,rgba(255,238,214,.42) 0,rgba(247,251,250,0) 190px)}
+.nav{background:rgba(255,251,246,.97);border-top-color:#eadfd5}
+.startup-splash{transition:opacity .82s cubic-bezier(.4,0,.2,1)}
+.startup-scene{animation:startupJourney 4s cubic-bezier(.2,.72,.25,1) forwards}
+.startup-splash::after{animation:sunBreath 4s ease-in-out forwards}
+@keyframes startupJourney{0%{transform:translate(-50%,-47%) scale(1.11);filter:brightness(.78) saturate(.88)}45%{filter:brightness(.96) saturate(1)}100%{transform:translate(-50%,-53%) scale(1.025);filter:brightness(1.04) saturate(1.04)}}
+@keyframes sunBreath{0%{opacity:.08}55%{opacity:.38}100%{opacity:.18}}
