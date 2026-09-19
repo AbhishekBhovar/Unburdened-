@@ -121,3 +121,23 @@
 /* v2.8 — exact approved journey artwork */
 .static-journey-art{background:transparent}
 .static-journey-art img{display:block;width:100%;height:auto;object-fit:contain}
+
+
+/* v3.1 — More artwork: preserve the complete journey composition. */
+.identity img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;display:block;background:#132b36}
+
+/* v3.1 — refined startup moment: quiet sunrise, mountain silhouette, forward lift. */
+.startup-splash{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;overflow:hidden;background:linear-gradient(180deg,#eef8f6 0%,#f8fbf8 56%,#fff8e8 100%);opacity:1;transition:opacity .55s ease,transform .55s cubic-bezier(.22,.7,.25,1)}
+.startup-glow{position:absolute;left:50%;top:51%;width:34vmax;height:34vmax;transform:translate(-50%,-50%) scale(.42);border-radius:50%;background:radial-gradient(circle,rgba(255,210,105,.55) 0%,rgba(255,225,158,.24) 32%,rgba(255,244,215,0) 69%);opacity:0;filter:blur(3px);transition:opacity .85s ease,transform 1.35s cubic-bezier(.22,.7,.25,1)}
+.startup-mountains{position:absolute;left:50%;top:50%;width:min(410px,96vw);height:180px;transform:translate(-50%,-16%);opacity:0;transition:opacity .75s ease .18s,transform 1.15s cubic-bezier(.22,.7,.25,1) .12s}
+.startup-mountains i,.startup-mountains b{position:absolute;left:50%;bottom:0;display:block;transform:translateX(-50%);clip-path:polygon(0 100%,13% 68%,25% 81%,40% 42%,50% 61%,66% 18%,78% 52%,88% 38%,100% 100%)}
+.startup-mountains i{width:100%;height:100%;background:rgba(29,83,91,.10)}
+.startup-mountains b{width:88%;height:72%;background:rgba(20,66,75,.075);transform:translateX(-45%)}
+.startup-brand{position:relative;z-index:2;text-align:center;transform:translateY(12px) scale(.985);opacity:0;transition:opacity .55s ease .12s,transform .95s cubic-bezier(.22,.7,.25,1) .08s}
+.startup-brand strong{display:block;color:var(--ink);font-size:clamp(38px,11vw,50px);font-weight:950;letter-spacing:-2.2px;line-height:1}
+.startup-brand span{display:block;margin-top:10px;color:#648087;font-size:13px;font-weight:800;letter-spacing:.2px;opacity:.9}
+.startup-splash.play .startup-glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.startup-splash.play .startup-mountains{opacity:1;transform:translate(-50%,-24%)}
+.startup-splash.play .startup-brand{opacity:1;transform:translateY(0) scale(1)}
+.startup-splash.leave{opacity:0;transform:translateY(-8px) scale(1.012);pointer-events:none}
+@media(prefers-reduced-motion:reduce){.startup-splash{display:none}}

@@ -11,3 +11,8 @@ Repository-ready GitHub Pages build based on the approved v2.6 Home artwork.
 - Historical graph/date-order fixes and all other v2.6 functionality are preserved.
 
 Upload every file and folder in this package to the repository root, replacing the previous build.
+
+
+## v3.1
+- Restored and refined the startup animation with a subtle sunrise glow and mountain silhouette.
+- Updated the More screen artwork presentation to preserve the summit, user and Mona together.
