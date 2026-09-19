@@ -1,5 +1,5 @@
-const START=126, GOAL=70, STEP=2.5, $=s=>document.querySelector(s);const STORE="unburdened-data-v1";const state=load();let chartRange="ALL";
-function load(){const base={weights:[],waists:[],photos:[],start:START,goal:GOAL,lastCelebrated:START,reminders:{weight:true,waist:true,photos:true}};try{const a=JSON.parse(localStorage.getItem(STORE)||"null");return a?{...base,...a,reminders:{...base.reminders,...(a.reminders||{})}}:base}catch{return base}}
+const START=130, GOAL=70, STEP=2.5, $=s=>document.querySelector(s);const STORE="unburdened-data-v1";const state=load();let chartRange="ALL";
+function load(){const base={weights:[],waists:[],photos:[],start:START,goal:GOAL,lastCelebrated:START,reminders:{weight:true,waist:true,photos:true}};try{const a=JSON.parse(localStorage.getItem(STORE)||"null");if(!a)return base;const merged={...base,...a,reminders:{...base.reminders,...(a.reminders||{})}};if(!a.start||a.start===126)merged.start=START;if(!a.lastCelebrated||a.lastCelebrated===126)merged.lastCelebrated=START;return merged}catch{return base}}
 function save(){localStorage.setItem(STORE,JSON.stringify(state))}
 function weightRows(){
   return (state.weights||[])
@@ -13,7 +13,7 @@ function lost(){return Math.max(0,state.start-cur())}
 function rem(){return Math.max(0,cur()-state.goal)}
 function fmt(n){return Number(n).toFixed(Number(n)%1?1:0)}
 function today(){return new Date().toISOString().slice(0,10)}
-function cps(){let a=[126,125],x=122.5;while(x>=70){a.push(x);x-=2.5}return [...new Set(a)].sort((a,b)=>b-a)}function next(){return cps().find(x=>x<cur())??GOAL}function overall(){return Math.min(100,Math.max(0,lost()/(state.start-state.goal)*100))}
+function cps(){let a=[130,125],x=122.5;while(x>=70){a.push(x);x-=2.5}return [...new Set(a)].sort((a,b)=>b-a)}function next(){return cps().find(x=>x<cur())??GOAL}function overall(){return Math.min(100,Math.max(0,lost()/(state.start-state.goal)*100))}
 function navActive(v){document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.v===v))}function go(v){navActive(v);({home,log,progress,milestones,more}[v]||home)();scrollTo(0,0)}document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 function pageHead(title,back=false){return `<div class="head">${back?`<button class="back" aria-label="Back">‹</button>`:''}<h1>${title}</h1></div>`}function wireBack(){const b=$('.back');if(b)b.onclick=()=>go('more')}
 function trailSteps(w){const all=cps().filter(x=>x<w);return all.slice(0,6)}
@@ -24,7 +24,7 @@ function home(){
   $('#view').innerHTML=`<section class="home-page static-home">
     <div class="static-journey-art">
       <img src="unburdened-journey.jpeg?v=28"
-           alt="Unburdened mountain journey with static milestone stones from 126 kg toward the 70 kg goal">
+           alt="Unburdened mountain journey with static milestone stones from 130 kg toward the 70 kg goal">
     </div>
     <div class="home-body">
       <div class="card mission">
@@ -111,7 +111,7 @@ function chart(){
 }
 function waistSummary(){if(!state.waists.length)return `<div class="card"><h2>Waist</h2><p class="muted">No waist measurements yet.</p></div>`;const a=state.waists[0].value,b=state.waists.at(-1).value;return `<div class="card"><h2>Waist</h2><div class="split"><strong>${fmt(b)} cm</strong><span class="muted">${fmt(a-b)} cm change</span></div></div>`}
 function milestones(){$('#view').innerHTML=`<section class="screen">${pageHead('Milestones')}<div id="milestoneList"></div></section>`;renderMilestones()}
-function renderMilestones(){const arr=cps(),w=cur(),majorSet=new Set([120,110,100,90,80]);$('#milestoneList').innerHTML=`<div class="card timeline">${arr.map(x=>{const isMajor=majorSet.has(x),isGoal=x===70,isCurrent=next()===x,isDone=w<=x;return `<div class="mile ${isDone?'done':''} ${isCurrent?'current':''} ${isMajor?'major-mile':''} ${isGoal?'goal-mile':''}"><span class="mile-marker">${isGoal?'🏆':isMajor?'⚑':''}</span><strong>${fmt(x)} kg</strong>${isMajor?'<em>Major Milestone</em>':isGoal?'<em>Goal</em>':''}<small>${x===126?'Starting point':isGoal?'Goal':isDone?`${fmt(START-x)} kg lost`:`${fmt(w-x)} kg to go`}</small></div>`}).join('')}</div>`}
+function renderMilestones(){const arr=cps(),w=cur(),majorSet=new Set([120,110,100,90,80]);$('#milestoneList').innerHTML=`<div class="card timeline">${arr.map(x=>{const isMajor=majorSet.has(x),isGoal=x===70,isCurrent=next()===x,isDone=w<=x;return `<div class="mile ${isDone?'done':''} ${isCurrent?'current':''} ${isMajor?'major-mile':''} ${isGoal?'goal-mile':''}"><span class="mile-marker">${isGoal?'🏆':isMajor?'⚑':''}</span><strong>${fmt(x)} kg</strong>${isMajor?'<em>Major Milestone</em>':isGoal?'<em>Goal</em>':''}<small>${x===130?'Starting point':isGoal?'Goal':isDone?`${fmt(START-x)} kg lost`:`${fmt(w-x)} kg to go`}</small></div>`}).join('')}</div>`}
 function more(){$('#view').innerHTML=`<section class="screen">${pageHead('More')}<div class="card identity"><img src="assets/more-screen-journey.jpg?v=37" alt="You and Mau looking toward the mountain summit"><div><strong>Unburdened</strong><span>Less weight. More life.</span></div></div><button class="menu-card" id="photosBtn"><span>▧</span><div><strong>Progress Photos</strong><small>Front • side • back every 4 weeks</small></div><b>›</b></button><button class="menu-card" id="settingsBtn"><span>⚙</span><div><strong>Settings</strong><small>Goals and reminders</small></div><b>›</b></button><button class="menu-card" id="dataBtn"><span>⇩</span><div><strong>Your Data</strong><small>Export or restore a backup</small></div><b>›</b></button></section>`;$('#photosBtn').onclick=photosPage;$('#settingsBtn').onclick=settingsPage;$('#dataBtn').onclick=dataPage}
 function photosPage(){navActive('more');$('#view').innerHTML=`<section class="screen">${pageHead('Progress Photos',true)}<div class="card photo-intro"><strong>Front • side • back</strong><p class="muted">About every 4 weeks, with similar lighting and distance.</p><button id="addPhotos" class="btn">+ Add Photos</button></div><div>${photos()}</div></section>`;wireBack();$('#addPhotos').onclick=()=>$('#photoPicker').click()}
 function photos(){if(!state.photos.length)return `<div class="card empty-state"><strong>No progress photos yet</strong><p class="muted">Your first set will appear here.</p></div>`;return state.photos.slice().reverse().map(p=>`<div class="card"><strong>${new Date(p.date+'T12:00').toLocaleDateString(undefined,{month:'short',year:'numeric'})}</strong><div class="photo-grid">${p.images.map((x,i)=>`<figure><img src="${x}"><figcaption>${['Front','Side','Back'][i]||''}</figcaption></figure>`).join('')}</div></div>`).join('')}
