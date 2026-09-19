@@ -1,18 +1,11 @@
-# Unburdened v2.7 Final
+# Unburdened v3.2
 
-Repository-ready GitHub Pages build based on the approved v2.6 Home artwork.
+GitHub Pages/PWA build.
 
-## v2.7 changes
-- Home Current Mission "kg down" is calculated from the fixed 130 kg journey start:
-  **130 kg − current weight**
-- Example at 122.6 kg: **7.4 kg down**
-- Approved mountain artwork is unchanged.
-- Home layout uses more of the available vertical iPhone screen and positions the live Current Mission card lower, reducing the unused white space above the fixed bottom navigation.
-- Historical graph/date-order fixes and all other v2.6 functionality are preserved.
+## v3.2 corrections
+- More screen now uses `assets/more-screen-journey.jpg`, a tall crop of the approved artwork that keeps you, Mona, the summit and red flag visible.
+- Startup sequence is embedded directly in the initial HTML so it is visible before app JavaScript loads.
+- Startup remains visible for about 2 seconds, with sunrise glow, mountain silhouettes and the Unburdened reveal.
+- Service worker cache bumped to `unburdened-v32-more-startup`.
 
-Upload every file and folder in this package to the repository root, replacing the previous build.
-
-
-## v3.1
-- Restored and refined the startup animation with a subtle sunrise glow and mountain silhouette.
-- Updated the More screen artwork presentation to preserve the summit, user and Mona together.
+Upload the contents of this folder to the repository root.

@@ -123,21 +123,25 @@
 .static-journey-art img{display:block;width:100%;height:auto;object-fit:contain}
 
 
-/* v3.1 — More artwork: preserve the complete journey composition. */
-.identity img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain;object-position:center;display:block;background:#132b36}
 
-/* v3.1 — refined startup moment: quiet sunrise, mountain silhouette, forward lift. */
-.startup-splash{position:fixed;z-index:9999;inset:0;display:grid;place-items:center;overflow:hidden;background:linear-gradient(180deg,#eef8f6 0%,#f8fbf8 56%,#fff8e8 100%);opacity:1;transition:opacity .55s ease,transform .55s cubic-bezier(.22,.7,.25,1)}
-.startup-glow{position:absolute;left:50%;top:51%;width:34vmax;height:34vmax;transform:translate(-50%,-50%) scale(.42);border-radius:50%;background:radial-gradient(circle,rgba(255,210,105,.55) 0%,rgba(255,225,158,.24) 32%,rgba(255,244,215,0) 69%);opacity:0;filter:blur(3px);transition:opacity .85s ease,transform 1.35s cubic-bezier(.22,.7,.25,1)}
-.startup-mountains{position:absolute;left:50%;top:50%;width:min(410px,96vw);height:180px;transform:translate(-50%,-16%);opacity:0;transition:opacity .75s ease .18s,transform 1.15s cubic-bezier(.22,.7,.25,1) .12s}
-.startup-mountains i,.startup-mountains b{position:absolute;left:50%;bottom:0;display:block;transform:translateX(-50%);clip-path:polygon(0 100%,13% 68%,25% 81%,40% 42%,50% 61%,66% 18%,78% 52%,88% 38%,100% 100%)}
-.startup-mountains i{width:100%;height:100%;background:rgba(29,83,91,.10)}
-.startup-mountains b{width:88%;height:72%;background:rgba(20,66,75,.075);transform:translateX(-45%)}
-.startup-brand{position:relative;z-index:2;text-align:center;transform:translateY(12px) scale(.985);opacity:0;transition:opacity .55s ease .12s,transform .95s cubic-bezier(.22,.7,.25,1) .08s}
-.startup-brand strong{display:block;color:var(--ink);font-size:clamp(38px,11vw,50px);font-weight:950;letter-spacing:-2.2px;line-height:1}
-.startup-brand span{display:block;margin-top:10px;color:#648087;font-size:13px;font-weight:800;letter-spacing:.2px;opacity:.9}
-.startup-splash.play .startup-glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.startup-splash.play .startup-mountains{opacity:1;transform:translate(-50%,-24%)}
-.startup-splash.play .startup-brand{opacity:1;transform:translateY(0) scale(1)}
-.startup-splash.leave{opacity:0;transform:translateY(-8px) scale(1.012);pointer-events:none}
-@media(prefers-reduced-motion:reduce){.startup-splash{display:none}}
+
+/* v3.2 — More screen: intentionally tall crop showing the complete story. */
+.identity{padding:0;overflow:hidden}
+.identity img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#132b36}
+.identity div{text-align:center;padding:12px}
+
+/* v3.2 — startup is present in the initial HTML, so it cannot flash past before JS loads. */
+.startup-splash{position:fixed;z-index:9999;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#eaf6f5 0%,#f7fbf8 58%,#fff7df 100%);animation:splashBg 1.9s ease both;transition:opacity .5s ease,transform .5s cubic-bezier(.22,.7,.25,1)}
+.startup-sun{position:absolute;left:50%;top:48%;width:min(330px,78vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,207,83,.62) 0%,rgba(255,225,150,.30) 32%,rgba(255,244,213,0) 70%);filter:blur(2px);transform:translate(-50%,-50%) scale(.35);opacity:0;animation:sunrise 1.45s cubic-bezier(.22,.7,.25,1) .08s forwards}
+.startup-ridge{position:absolute;left:50%;bottom:34%;width:min(470px,112vw);transform:translateX(-50%) translateY(18px);opacity:0;clip-path:polygon(0 100%,0 78%,10% 67%,18% 74%,29% 54%,39% 70%,52% 35%,61% 56%,72% 18%,81% 52%,90% 37%,100% 68%,100% 100%)}
+.ridge-back{height:165px;background:rgba(40,91,98,.09);animation:ridgeRise 1.1s ease .22s forwards}
+.ridge-front{height:125px;width:min(430px,105vw);background:rgba(22,67,76,.11);animation:ridgeRise 1.1s ease .34s forwards}
+.startup-brand{position:relative;z-index:2;text-align:center;opacity:0;transform:translateY(18px) scale(.985);animation:brandReveal .85s cubic-bezier(.22,.7,.25,1) .28s forwards}
+.startup-brand strong{display:block;color:var(--ink);font-size:clamp(42px,12vw,52px);font-weight:950;letter-spacing:-2.4px;line-height:1}
+.startup-brand span{display:block;margin-top:10px;color:#648087;font-size:13px;font-weight:850;letter-spacing:.2px}
+.startup-splash.leave{opacity:0;transform:translateY(-10px) scale(1.012);pointer-events:none}
+@keyframes sunrise{0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}45%{opacity:.7}100%{opacity:1;transform:translate(-50%,-54%) scale(1)}}
+@keyframes ridgeRise{to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes brandReveal{to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes splashBg{0%{filter:saturate(.92)}100%{filter:saturate(1)}}
+@media(prefers-reduced-motion:reduce){.startup-sun,.startup-ridge,.startup-brand{animation-duration:.01ms;animation-delay:0s}.startup-splash{animation:none}.startup-splash.leave{transition-duration:.2s}}
