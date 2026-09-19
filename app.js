@@ -125,6 +125,6 @@ function finishSplash(){
   const splash=document.getElementById('startupSplash');
   if(!splash)return;
   setTimeout(()=>splash.classList.add('leave'),4000);
-  setTimeout(()=>splash.remove(),4860);
+  setTimeout(()=>splash.remove(),5250);
 }
 home();finishSplash();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');

@@ -149,3 +149,22 @@ html,body{background:#f7eee2}
 .startup-splash::after{animation:sunBreath 4s ease-in-out forwards}
 @keyframes startupJourney{0%{transform:translate(-50%,-47%) scale(1.11);filter:brightness(.78) saturate(.88)}45%{filter:brightness(.96) saturate(1)}100%{transform:translate(-50%,-53%) scale(1.025);filter:brightness(1.04) saturate(1.04)}}
 @keyframes sunBreath{0%{opacity:.08}55%{opacity:.38}100%{opacity:.18}}
+
+/* v3.9 — visible cross-dissolve and warm sunset atmosphere (Safari + Chrome). */
+html,body{background:#f5eadc}
+body{background:linear-gradient(180deg,#f4d7b5 0,#f8ead7 13rem,#edf5f2 34rem,#eaf4f2 100%);background-attachment:fixed}
+#app{position:relative;background:linear-gradient(180deg,#f9dfbd 0,#fff1dc 9rem,#f6f9f5 25rem,#f7fbfa 100%)}
+#app::before{content:"";position:absolute;z-index:0;left:0;right:0;top:0;height:340px;pointer-events:none;background:radial-gradient(circle at 72% 4%,rgba(255,185,93,.38) 0,rgba(255,201,128,.20) 24%,rgba(255,232,200,.10) 46%,transparent 72%)}
+#view,.nav{position:relative;z-index:1}
+.screen{background:linear-gradient(180deg,rgba(255,225,188,.28) 0,rgba(255,244,229,.12) 130px,transparent 300px)}
+.card,.menu-card{background:rgba(255,255,255,.94)}
+.nav{background:rgba(255,249,241,.965);border-top-color:#e8d8c9;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.startup-splash{opacity:1;visibility:visible;transition:opacity 1.2s cubic-bezier(.4,0,.2,1),visibility 0s linear 1.2s;-webkit-transition:opacity 1.2s cubic-bezier(.4,0,.2,1),visibility 0s linear 1.2s;background:#182126}
+.startup-splash.leave{opacity:0;visibility:hidden;pointer-events:none}
+.startup-scene{animation:startupJourney39 4s cubic-bezier(.2,.72,.25,1) forwards;-webkit-animation:startupJourney39 4s cubic-bezier(.2,.72,.25,1) forwards;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.startup-splash::after{animation:sunBreath39 4s ease-in-out forwards;-webkit-animation:sunBreath39 4s ease-in-out forwards}
+@keyframes startupJourney39{0%{transform:translate(-50%,-47%) scale(1.115);filter:brightness(.80) saturate(.90)}55%{filter:brightness(.98) saturate(1.02)}100%{transform:translate(-50%,-53%) scale(1.02);filter:brightness(1.05) saturate(1.05)}}
+@-webkit-keyframes startupJourney39{0%{-webkit-transform:translate(-50%,-47%) scale(1.115);-webkit-filter:brightness(.80) saturate(.90)}55%{-webkit-filter:brightness(.98) saturate(1.02)}100%{-webkit-transform:translate(-50%,-53%) scale(1.02);-webkit-filter:brightness(1.05) saturate(1.05)}}
+@keyframes sunBreath39{0%{opacity:.08}55%{opacity:.42}100%{opacity:.20}}
+@-webkit-keyframes sunBreath39{0%{opacity:.08}55%{opacity:.42}100%{opacity:.20}}
+@media(prefers-reduced-motion:reduce){.startup-scene{animation:none;-webkit-animation:none}.startup-splash::after{animation:none;-webkit-animation:none}.startup-splash{transition:opacity .45s ease;-webkit-transition:opacity .45s ease}}
