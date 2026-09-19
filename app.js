@@ -45,27 +45,30 @@ function setChartRange(r){chartRange=r;progress()}
 function chart(){
   const sorted=weightRows();
   const byDate=new Map();
-  sorted.forEach(x=>byDate.set(x.date,x)); // if same date is entered twice, newest entry for that date wins
+  sorted.forEach(x=>byDate.set(x.date,x)); // newest entry wins if a date is logged twice
   const all=[...byDate.values()].sort((a,b)=>a.ts-b.ts);
   if(all.length<2)return `<div class="card trend-card"><div class="trend-head"><div><h2>Weight trend</h2><p>Your progress over time</p></div></div><div class="trend-empty">Your trend appears after two dated weigh-ins.<br>One reading never tells the whole story.</div></div>`;
 
   const lastTs=all.at(-1).ts;
   const rangeDays={ '1W':7, '1M':31, '3M':92 };
-  const startTs=chartRange==='ALL' ? all[0].ts : lastTs-rangeDays[chartRange]*86400000;
-  let v=all.filter(x=>x.ts>=startTs);
-  if(v.length<2)v=all.slice(-Math.min(2,all.length));
+  const requestedStart=chartRange==='ALL' ? all[0].ts : lastTs-rangeDays[chartRange]*86400000;
+  const v=all.filter(x=>x.ts>=requestedStart);
+  const rangeStart=chartRange==='ALL' ? all[0].ts : requestedStart;
+  const rangeEnd=lastTs;
 
-  const W=340,H=220,L=42,R=10,T=18,B=34,plotW=W-L-R,plotH=H-T-B;
+  const W=340,H=220,L=42,R=12,T=18,B=38,plotW=W-L-R,plotH=H-T-B;
   let min=Math.min(...v.map(x=>x.value)),max=Math.max(...v.map(x=>x.value));
-  let span=Math.max(2,max-min);
-  let pad=Math.max(1,span*.22);
-  let lo=Math.floor((min-pad)/2)*2, hi=Math.ceil((max+pad)/2)*2;
-  if(hi-lo<6){const mid=(hi+lo)/2;lo=mid-3;hi=mid+3}
-  const firstTs=v[0].ts, timeSpan=Math.max(86400000,v.at(-1).ts-firstTs);
-  const x=x=>L+((x.ts-firstTs)/timeSpan)*plotW;
-  const y=x=>T+((hi-x.value)/(hi-lo))*plotH;
+  let span=Math.max(1,max-min), pad=Math.max(.8,span*.22);
+  let lo=Math.floor(min-pad), hi=Math.ceil(max+pad);
+  if(hi-lo<4){const mid=(hi+lo)/2;lo=Math.floor(mid-2);hi=Math.ceil(mid+2)}
+  const timeSpan=Math.max(86400000,rangeEnd-rangeStart);
+  const x=p=>L+((p.ts-rangeStart)/timeSpan)*plotW;
+  const xTs=ts=>L+((ts-rangeStart)/timeSpan)*plotW;
+  const y=p=>T+((hi-p.value)/(hi-lo))*plotH;
   const pts=v.map(p=>`${x(p).toFixed(1)},${y(p).toFixed(1)}`).join(' ');
-  const area=`${x(v[0]).toFixed(1)},${(T+plotH).toFixed(1)} ${pts} ${x(v.at(-1)).toFixed(1)},${(T+plotH).toFixed(1)}`;
+  const baseline=(T+plotH).toFixed(1);
+  const area=v.length>1 ? `${x(v[0]).toFixed(1)},${baseline} ${pts} ${x(v.at(-1)).toFixed(1)},${baseline}` : '';
+
   const yTicks=4;
   const yGrid=Array.from({length:yTicks+1},(_,i)=>{
     const yy=T+(plotH/yTicks)*i;
@@ -73,11 +76,13 @@ function chart(){
     return `<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" class="grid-line"/><text x="${L-7}" y="${yy+4}" text-anchor="end" class="axis-text">${fmt(val)}</text>`
   }).join('');
 
-  const labelCount=Math.min(6,v.length);
-  const labelIdx=[...new Set(Array.from({length:labelCount},(_,i)=>Math.round(i*(v.length-1)/Math.max(1,labelCount-1))))];
-  const spansYears=new Date(v[0].ts).getFullYear()!==new Date(v.at(-1).ts).getFullYear();
+  // X-axis labels are time ticks, not data-point labels. This prevents clustered weigh-ins
+  // from printing dates on top of each other while preserving proportional date spacing.
+  const tickCount=3;
+  const tickTimes=Array.from({length:tickCount},(_,i)=>rangeStart+(timeSpan*i/(tickCount-1)));
+  const spansYears=new Date(rangeStart).getFullYear()!==new Date(rangeEnd).getFullYear();
   const fmtDate=ts=>new Date(ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:spansYears?'2-digit':undefined});
-  const xLabels=labelIdx.map(i=>`<text x="${x(v[i])}" y="${H-9}" text-anchor="${i===0?'start':i===v.length-1?'end':'middle'}" class="axis-text x-label">${fmtDate(v[i].ts)}</text>`).join('');
+  const xLabels=tickTimes.map((ts,i)=>`<text x="${xTs(ts)}" y="${H-9}" text-anchor="${i===0?'start':i===tickTimes.length-1?'end':'middle'}" class="axis-text x-label">${fmtDate(ts)}</text>`).join('');
   const pointDots=v.map((p,i)=>`<circle cx="${x(p)}" cy="${y(p)}" r="${i===v.length-1?5.5:3.7}" class="${i===v.length-1?'last-dot':'trend-dot'}"/>`).join('');
   const latest=v.at(-1), lx=x(latest), ly=y(latest);
   const bubbleW=92,bubbleH=43;
@@ -85,24 +90,25 @@ function chart(){
   const by=Math.max(2,ly-bubbleH-14);
   const bubble=`<g class="latest-bubble"><rect x="${bx}" y="${by}" width="${bubbleW}" height="${bubbleH}" rx="8"/><text x="${bx+8}" y="${by+17}" class="bubble-main">${fmt(latest.value)} kg</text><text x="${bx+8}" y="${by+33}" class="bubble-sub">${new Date(latest.ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}</text><line x1="${lx}" y1="${by+bubbleH}" x2="${lx}" y2="${ly-7}" class="bubble-line"/></g>`;
 
+  const rangeNote=v.length===1 ? `<div class="trend-range-note">Only one weigh-in in this range.</div>` : '';
   return `<div class="card trend-card">
     <div class="trend-head">
-      <div><h2>Weight trend</h2><p>Your progress over time</p></div>
+      <div><h2>Weight trend</h2><p>Your actual logged weigh-ins</p></div>
       <div class="range-tabs">${['1W','1M','3M','ALL'].map(r=>`<button class="${chartRange===r?'active':''}" onclick="setChartRange('${r}')">${r}</button>`).join('')}</div>
     </div>
     <div class="trend-chart">
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart">
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Weight trend chart with weigh-ins spaced by their actual dates">
         <defs><linearGradient id="trendFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ebf8c" stop-opacity=".26"/><stop offset="100%" stop-color="#2ebf8c" stop-opacity=".03"/></linearGradient></defs>
         ${yGrid}
-        <polygon points="${area}" fill="url(#trendFill)"/>
-        <polyline points="${pts}" fill="none" class="trend-line"/>
+        ${v.length>1?`<polygon points="${area}" fill="url(#trendFill)"/><polyline points="${pts}" fill="none" class="trend-line"/>`:''}
         ${pointDots}
         ${bubble}
         ${xLabels}
       </svg>
+      ${rangeNote}
     </div>
     <div class="trend-stats">
-      <div><strong>${fmt(START)} kg</strong><small>Starting<br>Weight</small></div>
+      <div><strong>${fmt(START)} kg</strong><small>Journey<br>Start</small></div>
       <div><strong>${fmt(cur())} kg</strong><small>Current<br>Weight</small></div>
       <div><strong class="green-stat">${fmt(lost())} kg</strong><small>Total Lost</small></div>
       <div><strong>${fmt(rem())} kg</strong><small>Remaining</small></div>
