@@ -267,3 +267,13 @@ html,body{width:100%;max-width:100%;overflow-x:hidden}
   .more-screen .identity div{padding:11px}.more-screen .identity strong{font-size:20px}.more-screen .identity span{font-size:14px}
   .more-screen .menu-card{padding:14px 12px;margin:8px 0;min-height:66px}
 }
+
+/* v4.6 — keep bottom navigation attached to the viewport, not document flow */
+.nav{
+  position:fixed;
+  left:50%;
+  right:auto;
+  bottom:0;
+  transform:translateX(-50%);
+  z-index:30;
+}
