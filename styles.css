@@ -46,7 +46,10 @@
 .trend-line{stroke:#159c73;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .trend-dot{fill:#fff;stroke:#159c73;stroke-width:2.5;vector-effect:non-scaling-stroke}
 .last-dot{fill:#35b98b;stroke:#159c73;stroke-width:3;vector-effect:non-scaling-stroke;filter:drop-shadow(0 2px 3px rgba(17,133,120,.22))}
-.latest-bubble rect{fill:#118578}
+.trend-hit{fill:transparent;stroke:transparent;cursor:pointer;touch-action:manipulation}
+.tap-bubble{opacity:0;pointer-events:none;transition:opacity .12s ease}
+.tap-bubble.show{opacity:1}
+.tap-bubble rect{fill:#118578}
 .bubble-main{fill:#fff;font-size:10px;font-weight:900;font-family:inherit}
 .bubble-sub{fill:#e8fffa;font-size:7px;font-family:inherit}
 .bubble-line{stroke:#63cdb0;stroke-width:1.3;stroke-dasharray:3 3}

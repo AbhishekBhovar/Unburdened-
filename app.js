@@ -40,7 +40,7 @@ function home(){
   </section>`
 }
 function log(){$('#view').innerHTML=`<section class="screen log-screen">${pageHead('Log Weight')}<div class="scale" aria-hidden="true"></div><div class="card form compact-form"><div class="two"><label>Date<input id="date" type="date" value="${today()}"></label><label>Weight (kg)<input id="weight" type="number" step=".1" inputmode="decimal" placeholder="${fmt(cur())}"></label></div><div class="helper">✓ Same conditions each week makes the trend more useful.</div><label>Notes <span>— optional</span><textarea id="notes" placeholder="Anything worth remembering?"></textarea></label><button id="saveLog" class="btn">Save Update</button></div></section>`;$('#saveLog').onclick=()=>{const v=parseFloat($('#weight').value),d=$('#date').value,notes=$('#notes').value.trim();if(!Number.isNaN(v)){const priorLatest=latestWeightRow();state.weights.push({date:d,value:v,notes});const afterLatest=latestWeightRow();if(afterLatest&&afterLatest._i===state.weights.length-1&&(!priorLatest||afterLatest.ts>=priorLatest.ts))checkCelebration(v)}save();go('home')}}
-function progress(){$('#view').innerHTML=`<section class="screen progress-screen">${pageHead('Current Progress')}<div class="card center progress-summary"><div class="big">${fmt(cur())} kg</div><h2>${fmt(lost())} kg down</h2><p class="muted">${fmt(rem())} kg to go</p><div class="progressbar"><i style="width:${overall()}%"></i></div><div class="split muted mini"><span>${START} kg Start</span><span>${GOAL} kg Goal</span></div></div><div class="card soft center checkpoint-card"><strong>Next Checkpoint</strong><div class="checkpoint">${fmt(next())} kg</div><span class="muted">${fmt(Math.max(0,cur()-next()))} kg to go</span></div>${chart()}</section>`}
+function progress(){$('#view').innerHTML=`<section class="screen progress-screen">${pageHead('Current Progress')}<div class="card center progress-summary"><div class="big">${fmt(cur())} kg</div><h2>${fmt(lost())} kg down</h2><p class="muted">${fmt(rem())} kg to go</p><div class="progressbar"><i style="width:${overall()}%"></i></div><div class="split muted mini"><span>${START} kg Start</span><span>${GOAL} kg Goal</span></div></div><div class="card soft center checkpoint-card"><strong>Next Checkpoint</strong><div class="checkpoint">${fmt(next())} kg</div><span class="muted">${fmt(Math.max(0,cur()-next()))} kg to go</span></div>${chart()}</section>`;wireChartPoints()}
 function setChartRange(r){chartRange=r;progress()}
 function chart(){
   const sorted=weightRows();
@@ -83,12 +83,10 @@ function chart(){
   const spansYears=new Date(rangeStart).getFullYear()!==new Date(rangeEnd).getFullYear();
   const fmtDate=ts=>new Date(ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:spansYears?'2-digit':undefined});
   const xLabels=tickTimes.map((ts,i)=>`<text x="${xTs(ts)}" y="${H-9}" text-anchor="${i===0?'start':i===tickTimes.length-1?'end':'middle'}" class="axis-text x-label">${fmtDate(ts)}</text>`).join('');
-  const pointDots=v.map((p,i)=>`<circle cx="${x(p)}" cy="${y(p)}" r="${i===v.length-1?5.5:3.7}" class="${i===v.length-1?'last-dot':'trend-dot'}"/>`).join('');
-  const latest=v.at(-1), lx=x(latest), ly=y(latest);
-  const bubbleW=92,bubbleH=43;
-  const bx=Math.min(W-R-bubbleW,Math.max(L,lx-bubbleW+14));
-  const by=Math.max(2,ly-bubbleH-14);
-  const bubble=`<g class="latest-bubble"><rect x="${bx}" y="${by}" width="${bubbleW}" height="${bubbleH}" rx="8"/><text x="${bx+8}" y="${by+17}" class="bubble-main">${fmt(latest.value)} kg</text><text x="${bx+8}" y="${by+33}" class="bubble-sub">${new Date(latest.ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}</text><line x1="${lx}" y1="${by+bubbleH}" x2="${lx}" y2="${ly-7}" class="bubble-line"/></g>`;
+  const pointDots=v.map((p,i)=>{
+    const dateLabel=new Date(p.ts).toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+    return `<circle cx="${x(p)}" cy="${y(p)}" r="${i===v.length-1?5.5:3.7}" class="${i===v.length-1?'last-dot':'trend-dot'}"/><circle cx="${x(p)}" cy="${y(p)}" r="12" class="trend-hit" tabindex="0" role="button" aria-label="${fmt(p.value)} kg on ${dateLabel}" data-weight="${fmt(p.value)}" data-date="${dateLabel}"/>`
+  }).join('');
 
   const rangeNote=v.length===1 ? `<div class="trend-range-note">Only one weigh-in in this range.</div>` : '';
   return `<div class="card trend-card">
@@ -102,7 +100,7 @@ function chart(){
         ${yGrid}
         ${v.length>1?`<polygon points="${area}" fill="url(#trendFill)"/><polyline points="${pts}" fill="none" class="trend-line"/>`:''}
         ${pointDots}
-        ${bubble}
+        <g id="chartTapBubble" class="tap-bubble" aria-hidden="true"></g>
         ${xLabels}
       </svg>
       ${rangeNote}
@@ -115,6 +113,30 @@ function chart(){
     </div>
   </div>`
 }
+
+let chartBubbleTimer;
+function wireChartPoints(){
+  const svg=document.querySelector('.trend-chart svg'), bubble=document.getElementById('chartTapBubble');
+  if(!svg||!bubble)return;
+  const show=e=>{
+    const hit=e.currentTarget;
+    const cx=parseFloat(hit.getAttribute('cx')),cy=parseFloat(hit.getAttribute('cy'));
+    const weight=hit.dataset.weight,date=hit.dataset.date;
+    const W=340,L=42,R=12,bw=92,bh=43;
+    const bx=Math.min(W-R-bw,Math.max(L,cx-bw/2));
+    const by=Math.max(2,cy-bh-12);
+    bubble.innerHTML=`<rect x="${bx}" y="${by}" width="${bw}" height="${bh}" rx="8"/><text x="${bx+8}" y="${by+17}" class="bubble-main">${weight} kg</text><text x="${bx+8}" y="${by+33}" class="bubble-sub">${date}</text><line x1="${cx}" y1="${by+bh}" x2="${cx}" y2="${Math.max(by+bh,cy-7)}" class="bubble-line"/>`;
+    bubble.classList.add('show');
+    bubble.setAttribute('aria-hidden','false');
+    clearTimeout(chartBubbleTimer);
+    chartBubbleTimer=setTimeout(()=>{bubble.classList.remove('show');bubble.setAttribute('aria-hidden','true');bubble.innerHTML=''},1000);
+  };
+  document.querySelectorAll('.trend-hit').forEach(hit=>{
+    hit.addEventListener('pointerup',show);
+    hit.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(e)}});
+  });
+}
+
 function waistSummary(){if(!state.waists.length)return `<div class="card"><h2>Waist</h2><p class="muted">No waist measurements yet.</p></div>`;const a=state.waists[0].value,b=state.waists.at(-1).value;return `<div class="card"><h2>Waist</h2><div class="split"><strong>${fmt(b)} cm</strong><span class="muted">${fmt(a-b)} cm change</span></div></div>`}
 function milestones(){$('#view').innerHTML=`<section class="screen milestones-screen">${pageHead('Milestones')}<div id="milestoneList"></div></section>`;renderMilestones()}
 function renderMilestones(){const arr=cps(),w=cur(),majorSet=new Set([120,110,100,90,80]);$('#milestoneList').innerHTML=`<div class="card milestone-grid">${arr.map(x=>{const isMajor=majorSet.has(x),isGoal=x===70,isCurrent=next()===x,isDone=w<=x;return `<div class="mile-tile ${isDone?'done':''} ${isCurrent?'current':''} ${isMajor?'major':''} ${isGoal?'goal':''}"><span class="mile-dot">${isGoal?'🏆':isMajor?'⚑':''}</span><strong>${fmt(x)}</strong><small>kg</small></div>`}).join('')}</div><div class="milestone-key"><span><i class="key-done"></i>Reached</span><span><i class="key-current"></i>Next</span><span><i class="key-major">⚑</i>Major</span><span><i>🏆</i>Goal</span></div>`}
